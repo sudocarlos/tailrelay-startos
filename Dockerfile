@@ -1,0 +1,1 @@
+FROM sudocarlos/tailrelay:latest
