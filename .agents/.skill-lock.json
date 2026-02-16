@@ -1,0 +1,15 @@
+{
+  "version": 3,
+  "skills": {
+    "git-workflow": {
+      "source": "agno-agi/agno",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/agno-agi/agno.git",
+      "skillPath": "cookbook/02_agents/16_skills/sample_skills/git-workflow/SKILL.md",
+      "skillFolderHash": "8d72daa57ac9f159d41ccb195244d9514044cf88",
+      "installedAt": "2026-02-16T20:28:53.264Z",
+      "updatedAt": "2026-02-16T20:28:53.264Z"
+    }
+  },
+  "dismissed": {}
+}

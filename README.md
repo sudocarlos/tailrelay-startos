@@ -1,6 +1,6 @@
 # tailrelay-startos
 
-StartOS wrapper for [Tailrelay](https://github.com/sudocarlos/tailscale-socaddy-proxy) — expose local services to your Tailscale network with automatic TLS, HTTP proxies, and TCP relays.
+StartOS wrapper for [Tailrelay](https://github.com/sudocarlos/tailrelay) — expose local services to your Tailscale network with automatic TLS, HTTP proxies, and TCP relays.
 
 ## Building
 

@@ -3,9 +3,9 @@ export const manifest = {
     title: 'Tailrelay',
     license: 'mit',
     wrapperRepo: 'https://github.com/sudocarlos/tailrelay-startos',
-    upstreamRepo: 'https://github.com/sudocarlos/tailscale-socaddy-proxy',
-    supportSite: 'https://github.com/sudocarlos/tailscale-socaddy-proxy/issues',
-    marketingSite: 'https://github.com/sudocarlos/tailscale-socaddy-proxy',
+    upstreamRepo: 'https://github.com/sudocarlos/tailrelay',
+    supportSite: 'https://github.com/sudocarlos/tailrelay/issues',
+    marketingSite: 'https://github.com/sudocarlos/tailrelay',
     donationUrl: null,
     docsUrl: 'https://github.com/sudocarlos/tailrelay-startos/blob/master/docs',
     description: {
