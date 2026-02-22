@@ -173,3 +173,11 @@ skill: startos-packaging-guide
 ```
 
 This provides detailed documentation on manifests, interfaces, actions, backups, dependencies, file models, container initialization, and version migrations.
+
+For Git workflow guidance, load the skill:
+
+```
+skill: git-workflow
+```
+
+This provides best practices for commit messages, branch naming, and pull request descriptions.

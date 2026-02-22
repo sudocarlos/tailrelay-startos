@@ -6,25 +6,21 @@ StartOS wrapper for [Tailrelay](https://github.com/sudocarlos/tailrelay) — exp
 
 ### Prerequisites
 
-- [Docker](https://docs.docker.com/get-docker/)
+- [Docker](https://docs.docker.com/get-docker/) (with [buildx](https://docs.docker.com/buildx/working-with-buildx/))
 - [Make](https://www.gnu.org/software/make/)
-- [Node.js v22 LTS](https://nodejs.org/)
-- [SquashFS tools](https://github.com/plougher/squashfs-tools) — `sudo apt install squashfs-tools squashfs-tools-ng`
-- [start-cli](https://github.com/Start9Labs/start-cli/) — `curl -fsSL https://start9labs.github.io/start-cli/install.sh | sh`
+- [yq](https://github.com/mikefarah/yq) — YAML processor
+- [start-sdk](https://github.com/Start9Labs/start-os) — see [packaging docs](https://docs.start9.com/0.3.5.x/developer-docs/packaging)
 
 ### Build
 
 ```bash
-npm i
-make            # universal (all architectures)
-make aarch64    # ARM64 only
-make x86_64     # x86_64 only
+make            # build Docker image, pack, and verify
 ```
 
 ### Install to StartOS Device
 
 ```bash
-make install    # requires ~/.startos/config.yaml
+make install    # requires ~/.embassy/config.yaml
 ```
 
 ## License

@@ -1,0 +1,111 @@
+id: tailrelay
+title: Tailrelay
+version: 0.4.0
+release-notes: |
+  Initial StartOS package. Web UI for managing Tailscale, Caddy reverse proxies, and socat TCP relays.
+license: mit
+wrapper-repo: "https://github.com/sudocarlos/tailrelay-startos"
+upstream-repo: "https://github.com/sudocarlos/tailrelay"
+support-site: "https://github.com/sudocarlos/tailrelay/issues"
+marketing-site: "https://github.com/sudocarlos/tailrelay"
+donation-url: null
+build: ["make"]
+min-os-version: 0.3.5
+description:
+  short: Expose local services to your Tailscale network with automatic TLS, HTTP proxies, and TCP relays.
+  long: |
+    Tailrelay combines Tailscale VPN, Caddy reverse proxy, socat TCP relays, and a Web UI for browser-based management.
+    Securely access self-hosted services like BTCPayServer, LND, electrs, and Mempool without Tor.
+    Features automatic HTTPS certificates via Tailscale, protocol support for both HTTP/HTTPS proxies and raw TCP relays,
+    and backup/restore functionality.
+assets:
+  license: LICENSE
+  icon: icon.png
+  instructions: instructions.md
+  docker-images: image.tar
+main:
+  type: docker
+  image: main
+  entrypoint: docker_entrypoint.sh
+  args: []
+  mounts:
+    main: /data
+    tailscale: /var/lib/tailscale
+  io-format: yaml
+health-checks:
+  web-ui:
+    name: Web UI
+    success-message: Tailrelay Web UI is ready to be visited in your browser.
+    type: script
+config:
+  get:
+    type: script
+  set:
+    type: script
+properties:
+  type: script
+volumes:
+  main:
+    type: data
+  tailscale:
+    type: data
+interfaces:
+  main:
+    name: User Interface
+    description: Tailrelay Web UI
+    tor-config:
+      port-mapping:
+        80: "8021"
+    lan-config:
+      443:
+        ssl: true
+        internal: 8021
+    ui: true
+    protocols:
+      - tcp
+      - http
+dependencies: {}
+actions: {}
+alerts: {}
+backup:
+  create:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - duplicity
+      - create
+      - /mnt/backup
+      - /data
+      - /var/lib/tailscale
+    mounts:
+      BACKUP: /mnt/backup
+      main: /data
+      tailscale: /var/lib/tailscale
+    io-format: yaml
+  restore:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - duplicity
+      - restore
+      - /mnt/backup
+      - /data
+      - /var/lib/tailscale
+    mounts:
+      BACKUP: /mnt/backup
+      main: /data
+      tailscale: /var/lib/tailscale
+    io-format: yaml
+migrations:
+  from:
+    "*":
+      type: script
+      args: ["from"]
+  to:
+    "*":
+      type: script
+      args: ["to"]
