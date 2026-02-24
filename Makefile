@@ -1,10 +1,17 @@
 PKG_ID := tailrelay
 PKG_VERSION := $(shell yq e ".version" manifest.yaml)
 TS_FILES := $(shell find . -name "*.ts" 2>/dev/null)
+PLATFORM ?= linux/amd64
 
 .DELETE_ON_ERROR:
 
 all: verify
+
+arm:
+	@$(MAKE) PLATFORM=linux/arm64
+
+x86:
+	@$(MAKE) PLATFORM=linux/amd64
 
 clean:
 	rm -f $(PKG_ID).s9pk
@@ -30,4 +37,4 @@ $(PKG_ID).s9pk: manifest.yaml instructions.md LICENSE icon.png scripts/embassy.j
 	start-sdk pack
 
 image.tar: Dockerfile docker_entrypoint.sh
-	docker buildx build --tag start9/$(PKG_ID)/main:$(PKG_VERSION) --platform=linux/amd64 -o type=docker,dest=image.tar .
+	docker buildx build --tag start9/$(PKG_ID)/main:$(PKG_VERSION) --platform=$(PLATFORM) -o type=docker,dest=image.tar .
