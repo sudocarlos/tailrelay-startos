@@ -1,6 +1,6 @@
 id: tailrelay
 title: Tailrelay
-version: 0.4.0
+version: 0.4.1
 release-notes: |
   Initial StartOS package. Web UI for managing Tailscale, Caddy reverse proxies, and socat TCP relays.
 license: mit
