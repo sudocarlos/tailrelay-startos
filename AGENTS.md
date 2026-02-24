@@ -88,7 +88,7 @@ export * from "https://deno.land/x/embassyd_sdk@v0.3.3.0.11/mod.ts";
 │       ├── getConfig.ts     # Config form definition (Tailscale Auth Key)
 │       ├── setConfig.ts     # Config persistence
 │       ├── healthChecks.ts  # Web UI health check (HTTP check on port 8021)
-│       ├── migrations.ts    # Version migrations (0.4.1 ↔ 0.4.2)
+│       ├── migrations.ts    # Version migrations (0.4.2 ↔ 0.4.3)
 │       └── properties.ts   # Service properties display
 ├── Dockerfile               # Extends sudocarlos/tailrelay:latest with entrypoint
 ├── docker_entrypoint.sh     # Reads StartOS config, sets TS_AUTHKEY, execs start.sh
@@ -110,7 +110,7 @@ export * from "https://deno.land/x/embassyd_sdk@v0.3.3.0.11/mod.ts";
 | `scripts/procedures/getConfig.ts` | Defines the configuration form (Tailscale Auth Key) |
 | `scripts/procedures/setConfig.ts` | Persists user config via `compat.setConfig` |
 | `scripts/procedures/healthChecks.ts` | HTTP health check against `http://tailrelay.embassy:8021` |
-| `scripts/procedures/migrations.ts` | Version migration mappings (currently 0.4.1 ↔ 0.4.2) |
+| `scripts/procedures/migrations.ts` | Version migration mappings (currently 0.4.2 ↔ 0.4.3) |
 | `scripts/procedures/properties.ts` | Exports `compat.properties` for the properties display |
 | `docker_entrypoint.sh` | Reads config YAML, exports `TS_AUTHKEY`, starts upstream service |
 | `Dockerfile` | Extends `sudocarlos/tailrelay:latest`, copies entrypoint |
@@ -152,11 +152,11 @@ Migrations use `compat.migrations.fromMapping` with version keys:
 ```typescript
 export const migration: T.ExpectedExports.migration = compat.migrations
   .fromMapping({
-    "0.4.1": {
-      up: compat.migrations.updateConfig((config: any) => config, true, { version: "0.4.1", type: "script" }),
-      down: compat.migrations.updateConfig((config: any) => config, true, { version: "0.4.2", type: "script" }),
+    "0.4.2": {
+      up: compat.migrations.updateConfig((config: any) => config, true, { version: "0.4.2", type: "script" }),
+      down: compat.migrations.updateConfig((config: any) => config, true, { version: "0.4.3", type: "script" }),
     },
-  }, "0.4.2");
+  }, "0.4.3");
 ```
 
 ## Adding New Versions
