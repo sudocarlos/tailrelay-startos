@@ -4,180 +4,198 @@ This document provides guidance for AI coding agents working on this codebase.
 
 ## Project Overview
 
-This is a **StartOS package wrapper** for [Tailrelay](https://github.com/sudocarlos/tailrelay) using the **Start SDK** (`@start9labs/start-sdk`). The package wraps a Docker image and provides StartOS integration (interfaces, backups, health checks, etc.).
+This is a **StartOS package wrapper** for [Tailrelay](https://github.com/sudocarlos/tailrelay) using the **Embassy SDK** (`embassyd_sdk` v0.3.3). The package wraps a pre-built Docker image (`sudocarlos/tailrelay:latest`) and provides StartOS integration (interfaces, config, health checks, backups, migrations).
 
 **Tech Stack:**
 
-- Language: TypeScript (strict mode)
-- Runtime: Node.js v22 LTS
-- Build: Vercel ncc (bundler)
+- Language: TypeScript (Deno)
+- Runtime: [Deno](https://deno.land/) (scripts compiled via `deno.land/x/emit`)
 - Package Format: `.s9pk` (StartOS package)
+- Container: Docker (buildx, multi-platform)
 
 ## Build Commands
 
 ```bash
-npm ci                       # Install dependencies
-npm run check                # Type check (no emit)
-npm run build                # Build JavaScript bundle
-npm run prettier             # Format code with Prettier
-```
-
-## Make Commands (Package Building)
-
-```bash
-make                         # Build for all architectures (default)
-make x86                     # Build x86_64 package (alias: x86_64)
-make arm                     # Build ARM64 package (alias: aarch64, arm64)
+make                         # Build Docker image, pack .s9pk, and verify (default platform: linux/amd64)
+make x86                     # Build x86_64 package
+make arm                     # Build ARM64 package
 make install                 # Build and sideload to StartOS device
-make clean                   # Clean build artifacts
+make clean                   # Clean build artifacts (scripts/*.js, docker-images/, *.s9pk)
 ```
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) with [buildx](https://docs.docker.com/buildx/working-with-buildx/)
+- [Deno](https://deno.land/) (for bundling TypeScript scripts)
+- [Make](https://www.gnu.org/software/make/)
+- [yq](https://github.com/mikefarah/yq) (YAML processor, used by Makefile)
+- [start-sdk](https://github.com/Start9Labs/start-os) (for `start-sdk pack` and `start-sdk verify`)
 
 ## Testing
 
 No test suite. Validation:
 
-1. `npm run check` - TypeScript type checking
-2. `make` - Full package build
-3. `make install` - Install on StartOS device for integration testing
+1. `make` - Full package build + verification (`start-sdk verify`)
+2. `make install` - Install on StartOS device for integration testing
 
 ## Code Style
 
-### Formatting (Prettier in `package.json`)
+### TypeScript (Deno)
 
-- 2-space indentation, no semicolons, single quotes, trailing commas
-
-### TypeScript (`tsconfig.json`)
-
-- Target: ES2018, Module: CommonJS, Strict mode, esModuleInterop
+- Double quotes for strings
+- Semicolons at end of statements
+- 2-space indentation
 
 ### Naming Conventions
 
-| Type                 | Convention         | Example                         |
-| -------------------- | ------------------ | ------------------------------- |
-| Files                | camelCase.ts       | `versionGraph.ts`, `backups.ts` |
-| Directory entry      | index.ts           | `actions/index.ts`              |
-| Version files        | v_X_Y_Z_W_label.ts | `v_0_4_0_0_4_b0.ts`             |
-| Variables/Functions  | camelCase          | `uiPort`, `setInterfaces`       |
-| Constants            | SCREAMING_SNAKE    | `DEFAULT_LANG`                  |
-| Types                | PascalCase         | `I18nKey`, `LangDict`           |
-| Package IDs          | kebab-case         | `'tailrelay'`                   |
-| Volume/Interface IDs | kebab-case         | `'main'`, `'ui-multi'`          |
+| Type                 | Convention         | Example                                  |
+| -------------------- | ------------------ | ---------------------------------------- |
+| Files                | camelCase.ts       | `getConfig.ts`, `healthChecks.ts`        |
+| Entry point          | embassy.ts         | `scripts/embassy.ts`                     |
+| Variables/Functions  | camelCase          | `setConfig`, `healthUtil`                |
+| Package IDs          | kebab-case         | `'tailrelay'`                            |
+| Volume IDs           | kebab-case         | `'main'`, `'tailscale'`                  |
 
-### Import Order
+### Import Pattern
 
-1. External packages (`@start9labs/start-sdk`)
-2. Local SDK instance (`./sdk`)
-3. Other local modules (by dependency order)
+All procedure files import from a shared `deps.ts` barrel:
 
 ```typescript
-import { VersionInfo } from '@start9labs/start-sdk'
-import { sdk } from './sdk'
-import { uiPort } from './utils'
+import { compat, types as T } from "../deps.ts";
 ```
 
-### Export Patterns
+The `deps.ts` file re-exports from the Embassy SDK:
 
-- Named exports for functions and constants
-- Re-exports in index.ts files
-- Version aliasing: `export { v_0_4_0_0_4_b0 as current }`
-- Default exports only for dictionary objects
+```typescript
+export * from "https://deno.land/x/embassyd_sdk@v0.3.3.0.11/mod.ts";
+```
 
 ## Directory Structure
 
-Key files in `startos/`:
-
-- `manifest.ts` - Package metadata
-- `main.ts` - Daemon definitions + health checks
-- `interfaces.ts` - Network interface definitions
-- `backups.ts` - Backup volume definitions
-- `dependencies.ts` - Package dependencies
-- `utils.ts` - Shared constants
-- `actions/index.ts` - Custom user actions
-- `init/index.ts` - Container initialization
-- `install/versions/` - Version migration files
-- `install/versionGraph.ts` - Version graph builder
-- `i18n/dictionaries/` - Internationalization strings
-- `index.ts`, `sdk.ts` - Export plumbing (DO NOT EDIT)
-
-## SDK Patterns
-
-### Setup Functions
-
-All SDK setup functions follow this pattern:
-
-```typescript
-export const mySetup = sdk.setupX(async ({ effects }) => {
-  // Implementation
-})
+```
+/
+├── .agents/                 # Agent skills and configuration
+│   └── skills/
+│       ├── git-workflow/       # Git commit/branch/PR conventions
+│       └── startos-packaging/  # Complete StartOS service packaging guide (.s9pk)
+├── assets/                  # Extra files (currently just README.md)
+├── scripts/                 # Deno TypeScript source
+│   ├── bundle.ts            # Deno bundler script (compiles embassy.ts → embassy.js)
+│   ├── deps.ts              # Barrel file re-exporting Embassy SDK
+│   ├── embassy.ts           # Entry point — re-exports all procedures
+│   ├── embassy.js           # Compiled output (generated, do not edit)
+│   └── procedures/          # StartOS integration procedures
+│       ├── getConfig.ts     # Config form definition (Tailscale Auth Key)
+│       ├── setConfig.ts     # Config persistence
+│       ├── healthChecks.ts  # Web UI health check (HTTP check on port 8021)
+│       ├── migrations.ts    # Version migrations (0.4.1 ↔ 0.4.2)
+│       └── properties.ts   # Service properties display
+├── Dockerfile               # Extends sudocarlos/tailrelay:latest with entrypoint
+├── docker_entrypoint.sh     # Reads StartOS config, sets TS_AUTHKEY, execs start.sh
+├── manifest.yaml            # Package metadata, volumes, interfaces, backup config
+├── instructions.md          # User-facing instructions (shown in StartOS UI)
+├── icon.png                 # Package icon
+├── icon.svg                 # Package icon (vector)
+├── Makefile                 # Build orchestration
+├── LICENSE                  # MIT
+└── README.md                # Project overview
 ```
 
-### Factory Methods
+## Key Files
 
-- `sdk.Daemons.of(effects)` - Create daemon manager
-- `sdk.Actions.of()` - Create actions container
-- `sdk.Mounts.of()` - Create mount configuration
-- `sdk.MultiHost.of(effects, 'id')` - Create multi-host binding
-- `sdk.SubContainer.of(effects, ...)` - Create subcontainer
-- `sdk.Backups.ofVolumes('volumeId')` - Define backup volumes
+| File | Purpose |
+|------|---------|
+| `manifest.yaml` | Package metadata: ID, version, volumes, interfaces, backup/restore, migrations, health checks |
+| `scripts/embassy.ts` | Entry point that re-exports all procedure functions |
+| `scripts/procedures/getConfig.ts` | Defines the configuration form (Tailscale Auth Key) |
+| `scripts/procedures/setConfig.ts` | Persists user config via `compat.setConfig` |
+| `scripts/procedures/healthChecks.ts` | HTTP health check against `http://tailrelay.embassy:8021` |
+| `scripts/procedures/migrations.ts` | Version migration mappings (currently 0.4.1 ↔ 0.4.2) |
+| `scripts/procedures/properties.ts` | Exports `compat.properties` for the properties display |
+| `docker_entrypoint.sh` | Reads config YAML, exports `TS_AUTHKEY`, starts upstream service |
+| `Dockerfile` | Extends `sudocarlos/tailrelay:latest`, copies entrypoint |
 
-### Static Builders
+## Embassy SDK Patterns
 
-- `VersionGraph.of({ current, other, preInstall })` - Build version graph
-- `VersionInfo.of({ version, releaseNotes, migrations })` - Define version
+### Procedure Exports
 
-## Error Handling
+All procedures follow the `compat` helper pattern from the Embassy SDK:
 
-The codebase relies on SDK-provided error handling:
+```typescript
+import { compat, types as T } from "../deps.ts";
 
-- Async/await with implicit promise rejection
-- Health checks for runtime error detection
-- No try/catch blocks in typical wrapper code
+export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
+  // config field definitions
+});
+```
+
+### Health Checks
+
+Health checks use `healthUtil.checkWebUrl` to verify HTTP endpoints:
+
+```typescript
+import { types as T, healthUtil } from "../deps.ts";
+
+export const health: T.ExpectedExports.health = {
+  async "web-ui"(effects, duration) {
+    return healthUtil
+      .checkWebUrl("http://tailrelay.embassy:8021")(effects, duration)
+      .catch(healthUtil.catchError(effects));
+  },
+};
+```
+
+### Migrations
+
+Migrations use `compat.migrations.fromMapping` with version keys:
+
+```typescript
+export const migration: T.ExpectedExports.migration = compat.migrations
+  .fromMapping({
+    "0.4.1": {
+      up: compat.migrations.updateConfig((config: any) => config, true, { version: "0.4.1", type: "script" }),
+      down: compat.migrations.updateConfig((config: any) => config, true, { version: "0.4.2", type: "script" }),
+    },
+  }, "0.4.2");
+```
 
 ## Adding New Versions
 
-1. Create `startos/install/versions/v_X_Y_Z_W_label.ts`:
+1. Update `manifest.yaml` — bump `version` and update `release-notes`
+2. Update `scripts/procedures/migrations.ts` — add a new migration entry in the mapping
+3. Rebuild: `make clean && make`
 
-```typescript
-import { VersionInfo } from '@start9labs/start-sdk'
+## Package Configuration
 
-export const v_X_Y_Z_W_label = VersionInfo.of({
-  version: 'X.Y.Z:W-label',
-  releaseNotes: { en_US: 'Release notes here.' },
-  migrations: {
-    up: async ({ effects }) => {},
-    down: async ({ effects }) => {},
-  },
-})
-```
+The package exposes one config field:
 
-2. Update `startos/install/versions/index.ts`:
+- **Tailscale Auth Key** — A reusable auth key from the [Tailscale admin console](https://login.tailscale.com/admin/settings/keys). Stored in `/data/start9/config.yaml` and read by `docker_entrypoint.sh` at startup.
 
-```typescript
-export { v_X_Y_Z_W_label as current } from './v_X_Y_Z_W_label'
-export const other = [v_previous] // Add old version to array
-```
+## Volumes
 
-## Files Marked "DO NOT EDIT"
+| Volume | Mount Point | Purpose |
+|--------|-------------|---------|
+| `main` | `/data` | Persistent data (config, relay definitions) |
+| `tailscale` | `/var/lib/tailscale` | Tailscale state (keys, node identity) |
 
-These files contain SDK plumbing and should not be modified:
+Both volumes are included in backups via `duplicity`.
 
-- `startos/index.ts` - Export plumbing
-- `startos/sdk.ts` - SDK instance creation
+## Interfaces
+
+| Interface | Port (External → Internal) | Description |
+|-----------|---------------------------|-------------|
+| `main` | LAN 443 (SSL) → 8021, Tor 80 → 8021 | Tailrelay Web UI |
 
 ## Skill Reference
 
-For comprehensive StartOS packaging guidance, load the skill:
-
-```
-skill: startos-packaging-guide
-```
-
-This provides detailed documentation on manifests, interfaces, actions, backups, dependencies, file models, container initialization, and version migrations.
-
-For Git workflow guidance, load the skill:
+For Git workflow guidance (commits, branches, PRs):
 
 ```
 skill: git-workflow
 ```
 
-This provides best practices for commit messages, branch naming, and pull request descriptions.
+For StartOS service packaging reference (manifest, Dockerfile, config spec, testing, submission):
+
+```
+skill: startos-packaging
+```
