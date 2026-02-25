@@ -199,3 +199,9 @@ For StartOS service packaging reference (manifest, Dockerfile, config spec, test
 ```
 skill: startos-packaging
 ```
+
+For creating a new release (version bump, tags, pipelines):
+
+```
+skill: create-release
+```
