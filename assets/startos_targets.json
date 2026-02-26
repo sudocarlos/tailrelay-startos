@@ -1,0 +1,314 @@
+[
+  {
+    "app_id": "bisq",
+    "host": "bisq.embassy",
+    "port": 3000,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "User Interface"
+  },
+  {
+    "app_id": "bisq",
+    "host": "bisq.embassy",
+    "port": 3389,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "User Interface"
+  },
+  {
+    "app_id": "bitcoind",
+    "host": "bitcoind.embassy",
+    "port": 8332,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "RPC Interface"
+  },
+  {
+    "app_id": "btc-rpc-proxy",
+    "host": "btc-rpc-proxy.embassy",
+    "port": 8332,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Network interface"
+  },
+  {
+    "app_id": "btcpayserver",
+    "host": "btcpayserver.embassy",
+    "port": 80,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Web Interface"
+  },
+  {
+    "app_id": "c-lightning",
+    "host": "c-lightning.embassy",
+    "port": 8080,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "RPC Interface"
+  },
+  {
+    "app_id": "c-lightning",
+    "host": "c-lightning.embassy",
+    "port": 4500,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Web User Interface"
+  },
+  {
+    "app_id": "c-lightning",
+    "host": "c-lightning.embassy",
+    "port": 3010,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "CLNRest"
+  },
+  {
+    "app_id": "c-lightning",
+    "host": "c-lightning.embassy",
+    "port": 9814,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "TEOS Watchtower API"
+  },
+  {
+    "app_id": "c-lightning",
+    "host": "c-lightning.embassy",
+    "port": 7272,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Clams Websocket"
+  },
+  {
+    "app_id": "c-lightning",
+    "host": "c-lightning.embassy",
+    "port": 2106,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "gRPC"
+  },
+  {
+    "app_id": "cryptpad",
+    "host": "cryptpad.embassy",
+    "port": 8080,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Web UI"
+  },
+  {
+    "app_id": "cryptpad",
+    "host": "cryptpad.embassy",
+    "port": 8080,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Sandbox UI"
+  },
+  {
+    "app_id": "cups",
+    "host": "cups.embassy",
+    "port": 59001,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Web Interface"
+  },
+  {
+    "app_id": "cups",
+    "host": "cups.embassy",
+    "port": 80,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Web Interface"
+  },
+  {
+    "app_id": "cwtch",
+    "host": "cwtch.embassy",
+    "port": 80,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Network Interface"
+  },
+  {
+    "app_id": "docuseal",
+    "host": "docuseal.embassy",
+    "port": 3000,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Docuseal Interface"
+  },
+  {
+    "app_id": "filebrowser",
+    "host": "filebrowser.embassy",
+    "port": 8080,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Web UI"
+  },
+  {
+    "app_id": "ghost",
+    "host": "ghost.embassy",
+    "port": 2368,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Network Interface"
+  },
+  {
+    "app_id": "iris",
+    "host": "iris.embassy",
+    "port": 8080,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "User Interface"
+  },
+  {
+    "app_id": "jam",
+    "host": "jam.embassy",
+    "port": 80,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Jam Web UI"
+  },
+  {
+    "app_id": "jellyfin",
+    "host": "jellyfin.embassy",
+    "port": 8096,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "User Interface"
+  },
+  {
+    "app_id": "lightning-terminal",
+    "host": "lightning-terminal.embassy",
+    "port": 8443,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Lightning Terminal Web Interface"
+  },
+  {
+    "app_id": "lnbits",
+    "host": "lnbits.embassy",
+    "port": 5000,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "LNBits Web Interface"
+  },
+  {
+    "app_id": "lndboss",
+    "host": "lndboss.embassy",
+    "port": 8055,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "LNDBoss Web Interface"
+  },
+  {
+    "app_id": "mempool",
+    "host": "mempool.embassy",
+    "port": 8080,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Mempool Interface"
+  },
+  {
+    "app_id": "my-speed",
+    "host": "my-speed.embassy",
+    "port": 5216,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "User Interface"
+  },
+  {
+    "app_id": "nextcloud",
+    "host": "nextcloud.embassy",
+    "port": 8080,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Nextcloud Web Interface"
+  },
+  {
+    "app_id": "nostr",
+    "host": "nostr.embassy",
+    "port": 8080,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Websocket Interface"
+  },
+  {
+    "app_id": "free-gpt",
+    "host": "free-gpt.embassy",
+    "port": 8080,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "User Interface"
+  },
+  {
+    "app_id": "phoenixd",
+    "host": "phoenixd.embassy",
+    "port": 9740,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Dev Interface"
+  },
+  {
+    "app_id": "ride-the-lightning",
+    "host": "ride-the-lightning.embassy",
+    "port": 80,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Browser Interface"
+  },
+  {
+    "app_id": "searxng",
+    "host": "searxng.embassy",
+    "port": 8080,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "SearXNG Web Interface"
+  },
+  {
+    "app_id": "serge",
+    "host": "serge.embassy",
+    "port": 8008,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "User Interface"
+  },
+  {
+    "app_id": "spark-wallet",
+    "host": "spark-wallet.embassy",
+    "port": 80,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Web Interface"
+  },
+  {
+    "app_id": "synapse",
+    "host": "synapse.embassy",
+    "port": 8080,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Admin Portal"
+  },
+  {
+    "app_id": "syncthing",
+    "host": "syncthing.embassy",
+    "port": 8384,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Syncthing UI"
+  },
+  {
+    "app_id": "syncthing",
+    "host": "syncthing.embassy",
+    "port": 22000,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Listening Port"
+  },
+  {
+    "app_id": "thunderhub",
+    "host": "thunderhub.embassy",
+    "port": 3000,
+    "type": "proxy",
+    "protocol": "https",
+    "target_name": "Browser Interface"
+  }
+]
