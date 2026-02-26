@@ -20,8 +20,16 @@ make            # build Docker image, pack, and verify
 ### Install to StartOS Device
 
 ```bash
-make install    # requires ~/.embassy/config.yaml
+make install    # requires ~/.embassy/config.yaml, see below
 ```
+
+## Sideloading
+
+1. Clone this repo and run the `make` command or download the package from [the releases page](https://github.com/sudocarlos/tailrelay-startos/releases).
+2. Install the package:
+   - In the StartOS web UI menu, navigate to **System -> Sideload Service**.
+   - Drag and drop or select the `<package>.s9pk` from your filesystem to install.
+3. Once the service has installed, navigate to **Services -> Tailrelay** and click **Start**.
 
 ## License
 

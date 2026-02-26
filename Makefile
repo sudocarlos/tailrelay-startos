@@ -27,7 +27,7 @@ install:
 ifeq (,$(wildcard ~/.embassy/config.yaml))
 	@echo; echo "You must define \"host: http://server-name.local\" in ~/.embassy/config.yaml config file first"; echo
 else
-	start-cli package install $(PKG_ID).s9pk
+	start-cli package install --sideload $(PKG_ID).s9pk
 endif
 
 scripts/embassy.js: $(TS_FILES)
