@@ -4220,8 +4220,38 @@ const migration = mod3.migrations.fromMapping({
             version: "0.4.3",
             type: "script"
         })
+    },
+    "0.4.3": {
+        up: mod3.migrations.updateConfig((config)=>config, true, {
+            version: "0.4.3",
+            type: "script"
+        }),
+        down: mod3.migrations.updateConfig((config)=>config, true, {
+            version: "0.5.0",
+            type: "script"
+        })
+    },
+    "0.5.0": {
+        up: mod3.migrations.updateConfig((config)=>config, true, {
+            version: "0.5.0",
+            type: "script"
+        }),
+        down: mod3.migrations.updateConfig((config)=>config, true, {
+            version: "0.6.0",
+            type: "script"
+        })
+    },
+    "0.6.0": {
+        up: mod3.migrations.updateConfig((config)=>config, true, {
+            version: "0.6.0",
+            type: "script"
+        }),
+        down: mod3.migrations.updateConfig((config)=>config, true, {
+            version: "0.6.1",
+            type: "script"
+        })
     }
-}, "0.4.3");
+}, "0.6.1");
 const health = {
     async "web-ui" (effects, duration) {
         return mod4.checkWebUrl("http://tailrelay.embassy:8021")(effects, duration).catch(mod4.catchError(effects));
