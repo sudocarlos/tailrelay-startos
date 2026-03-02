@@ -5,7 +5,7 @@
     "port": 3000,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "User Interface"
+    "target_name": "Bisq - User Interface (port 3000)"
   },
   {
     "app_id": "bisq",
@@ -13,7 +13,7 @@
     "port": 3389,
     "type": "proxy",
     "protocol": "http",
-    "target_name": "User Interface"
+    "target_name": "Bisq - User Interface (port 3389)"
   },
   {
     "app_id": "bitcoind",
@@ -21,7 +21,7 @@
     "port": 8332,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "RPC Interface"
+    "target_name": "Bitcoin Core - RPC Interface (port 8332)"
   },
   {
     "app_id": "btc-rpc-proxy",
@@ -29,7 +29,7 @@
     "port": 8332,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Network interface"
+    "target_name": "Bitcoin Proxy - Network interface (port 8332)"
   },
   {
     "app_id": "btcpayserver",
@@ -37,7 +37,7 @@
     "port": 80,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Web Interface"
+    "target_name": "BTCPay Server - Web Interface (port 80)"
   },
   {
     "app_id": "c-lightning",
@@ -45,7 +45,7 @@
     "port": 8080,
     "type": "proxy",
     "protocol": "http",
-    "target_name": "RPC Interface"
+    "target_name": "Core Lightning - RPC Interface (port 8080)"
   },
   {
     "app_id": "c-lightning",
@@ -53,7 +53,7 @@
     "port": 4500,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Web User Interface"
+    "target_name": "Core Lightning - Web User Interface (port 4500)"
   },
   {
     "app_id": "c-lightning",
@@ -61,7 +61,7 @@
     "port": 3010,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "CLNRest"
+    "target_name": "Core Lightning - CLNRest (port 3010)"
   },
   {
     "app_id": "c-lightning",
@@ -69,7 +69,7 @@
     "port": 9814,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "TEOS Watchtower API"
+    "target_name": "Core Lightning - TEOS Watchtower API (port 9814)"
   },
   {
     "app_id": "c-lightning",
@@ -77,7 +77,7 @@
     "port": 7272,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Clams Websocket"
+    "target_name": "Core Lightning - Clams Websocket (port 7272)"
   },
   {
     "app_id": "c-lightning",
@@ -85,7 +85,7 @@
     "port": 2106,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "gRPC"
+    "target_name": "Core Lightning - gRPC (port 2106)"
   },
   {
     "app_id": "cryptpad",
@@ -93,7 +93,7 @@
     "port": 8080,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Web UI"
+    "target_name": "CryptPad - Web UI (port 8080)"
   },
   {
     "app_id": "cryptpad",
@@ -101,7 +101,7 @@
     "port": 8080,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Sandbox UI"
+    "target_name": "CryptPad - Sandbox UI (port 8080)"
   },
   {
     "app_id": "cups",
@@ -109,7 +109,7 @@
     "port": 59001,
     "type": "proxy",
     "protocol": "http",
-    "target_name": "Web Interface"
+    "target_name": "Cups Messenger - Web Interface (port 59001)"
   },
   {
     "app_id": "cups",
@@ -117,7 +117,7 @@
     "port": 80,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Web Interface"
+    "target_name": "Cups Messenger - Web Interface (port 80)"
   },
   {
     "app_id": "cwtch",
@@ -125,7 +125,7 @@
     "port": 80,
     "type": "proxy",
     "protocol": "http",
-    "target_name": "Network Interface"
+    "target_name": "Cwtch Server - Network Interface (port 80)"
   },
   {
     "app_id": "docuseal",
@@ -133,7 +133,7 @@
     "port": 3000,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Docuseal Interface"
+    "target_name": "Docuseal - Docuseal Interface (port 3000)"
   },
   {
     "app_id": "filebrowser",
@@ -141,7 +141,7 @@
     "port": 8080,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Web UI"
+    "target_name": "File Browser - Web UI (port 8080)"
   },
   {
     "app_id": "ghost",
@@ -149,7 +149,7 @@
     "port": 2368,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Network Interface"
+    "target_name": "Ghost - Network Interface (port 2368)"
   },
   {
     "app_id": "iris",
@@ -157,7 +157,7 @@
     "port": 8080,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "User Interface"
+    "target_name": "Iris - User Interface (port 8080)"
   },
   {
     "app_id": "jam",
@@ -165,7 +165,7 @@
     "port": 80,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Jam Web UI"
+    "target_name": "Jam - Jam Web UI (port 80)"
   },
   {
     "app_id": "jellyfin",
@@ -173,7 +173,7 @@
     "port": 8096,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "User Interface"
+    "target_name": "Jellyfin - User Interface (port 8096)"
   },
   {
     "app_id": "lightning-terminal",
@@ -181,7 +181,7 @@
     "port": 8443,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Lightning Terminal Web Interface"
+    "target_name": "Lightning Terminal - Lightning Terminal Web Interface (port 8443)"
   },
   {
     "app_id": "lnbits",
@@ -189,7 +189,7 @@
     "port": 5000,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "LNBits Web Interface"
+    "target_name": "LNBits - LNBits Web Interface (port 5000)"
   },
   {
     "app_id": "lndboss",
@@ -197,7 +197,7 @@
     "port": 8055,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "LNDBoss Web Interface"
+    "target_name": "LNDBoss - LNDBoss Web Interface (port 8055)"
   },
   {
     "app_id": "mempool",
@@ -205,7 +205,7 @@
     "port": 8080,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Mempool Interface"
+    "target_name": "Mempool - Mempool Interface (port 8080)"
   },
   {
     "app_id": "my-speed",
@@ -213,7 +213,7 @@
     "port": 5216,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "User Interface"
+    "target_name": "MySpeed - User Interface (port 5216)"
   },
   {
     "app_id": "nextcloud",
@@ -221,7 +221,7 @@
     "port": 8080,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Nextcloud Web Interface"
+    "target_name": "Nextcloud - Nextcloud Web Interface (port 8080)"
   },
   {
     "app_id": "nostr",
@@ -229,7 +229,7 @@
     "port": 8080,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Websocket Interface"
+    "target_name": "Nostr RS Relay - Websocket Interface (port 8080)"
   },
   {
     "app_id": "free-gpt",
@@ -237,7 +237,7 @@
     "port": 8080,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "User Interface"
+    "target_name": "FreeGPT-2 - User Interface (port 8080)"
   },
   {
     "app_id": "phoenixd",
@@ -245,7 +245,7 @@
     "port": 9740,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Dev Interface"
+    "target_name": "phoenixd - Dev Interface (port 9740)"
   },
   {
     "app_id": "ride-the-lightning",
@@ -253,7 +253,7 @@
     "port": 80,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Browser Interface"
+    "target_name": "Ride the Lightning - Browser Interface (port 80)"
   },
   {
     "app_id": "searxng",
@@ -261,7 +261,7 @@
     "port": 8080,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "SearXNG Web Interface"
+    "target_name": "SearXNG - SearXNG Web Interface (port 8080)"
   },
   {
     "app_id": "serge",
@@ -269,7 +269,7 @@
     "port": 8008,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "User Interface"
+    "target_name": "Serge Chat - User Interface (port 8008)"
   },
   {
     "app_id": "spark-wallet",
@@ -277,7 +277,7 @@
     "port": 80,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Web Interface"
+    "target_name": "Spark Wallet - Web Interface (port 80)"
   },
   {
     "app_id": "synapse",
@@ -285,7 +285,7 @@
     "port": 8080,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Admin Portal"
+    "target_name": "Synapse - Admin Portal (port 8080)"
   },
   {
     "app_id": "syncthing",
@@ -293,7 +293,7 @@
     "port": 8384,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Syncthing UI"
+    "target_name": "Syncthing - Syncthing UI (port 8384)"
   },
   {
     "app_id": "syncthing",
@@ -301,7 +301,7 @@
     "port": 22000,
     "type": "proxy",
     "protocol": "http",
-    "target_name": "Listening Port"
+    "target_name": "Syncthing - Listening Port (port 22000)"
   },
   {
     "app_id": "thunderhub",
@@ -309,6 +309,6 @@
     "port": 3000,
     "type": "proxy",
     "protocol": "https",
-    "target_name": "Browser Interface"
+    "target_name": "ThunderHub - Browser Interface (port 3000)"
   }
 ]

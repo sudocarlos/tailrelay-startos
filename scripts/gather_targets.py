@@ -95,6 +95,7 @@ def main():
             print(f"  -> Warning: Manifest missing 'id' field.", file=sys.stderr)
             continue
             
+        title = manifest.get('title', app_id)
         host = f"{app_id}.embassy"
         interfaces = manifest.get('interfaces', {})
         
@@ -123,7 +124,7 @@ def main():
                     "port": int(internal_port),
                     "type": target_type,
                     "protocol": target_protocol,
-                    "target_name": iface_data.get('name', iface_id)
+                    "target_name": f"{title} - {iface_data.get('name', iface_id)} (port {internal_port})"
                 }
                 targets.append(target)
                 

@@ -1,8 +1,8 @@
 id: tailrelay
 title: Tailrelay
-version: 0.5.0
+version: 0.6.0
 release-notes: |
-  Initial StartOS package. Web UI for managing Tailscale, Caddy reverse proxies, and socat TCP relays.
+  Update to v0.6.0. StartOS target selection now built-in.
 license: mit
 wrapper-repo: "https://github.com/sudocarlos/tailrelay-startos"
 upstream-repo: "https://github.com/sudocarlos/tailrelay"
