@@ -74,4 +74,16 @@ export const migration: T.ExpectedExports.migration = compat.migrations
         { version: "0.7.0", type: "script" }
       ),
     },
-  }, "0.7.0");
+    "0.7.0": {
+      up: compat.migrations.updateConfig(
+        (config: any) => config,
+        true,
+        { version: "0.7.0", type: "script" }
+      ),
+      down: compat.migrations.updateConfig(
+        (config: any) => config,
+        true,
+        { version: "0.7.1", type: "script" }
+      ),
+    },
+  }, "0.7.1");
