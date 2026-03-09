@@ -1,8 +1,11 @@
 id: tailrelay
 title: Tailrelay
-version: 0.6.1
+version: 0.7.0
 release-notes: |
-  Update icon.
+  Update to tailrelay v0.7.0. Complete frontend rewrite (Svelte 5 + Tailwind CSS SPA),
+  bcrypt password authentication, Tailscale node management UI, and TLS cert startup check.
+  The Tailscale auth key is now configured through the Web UI on first launch instead of
+  the StartOS config form. The config section has been removed accordingly.
 license: mit
 wrapper-repo: "https://github.com/sudocarlos/tailrelay-startos"
 upstream-repo: "https://github.com/sudocarlos/tailrelay"
@@ -36,11 +39,6 @@ health-checks:
   web-ui:
     name: Web UI
     success-message: Tailrelay Web UI is ready to be visited in your browser.
-    type: script
-config:
-  get:
-    type: script
-  set:
     type: script
 properties:
   type: script
