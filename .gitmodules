@@ -1,0 +1,3 @@
+[submodule "tailrelay"]
+	path = tailrelay
+	url = https://github.com/sudocarlos/tailrelay

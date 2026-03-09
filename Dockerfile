@@ -1,8 +1,96 @@
-FROM sudocarlos/tailrelay:v0.7.0
+# syntax=docker/dockerfile:1
+# check=skip=SecretsUsedInArgOrEnv
+ARG TAILSCALE_VERSION=v1.92.5
+ARG GO_VERSION=1.24
+ARG NODE_VERSION=22
 
-# Copy the StartOS entrypoint wrapper
+# Frontend build stage — Vite + Svelte + Tailwind
+FROM node:${NODE_VERSION}-alpine AS frontend-builder
+
+WORKDIR /build/webui/frontend
+
+# Copy package files first for layer caching
+COPY tailrelay/webui/frontend/package.json tailrelay/webui/frontend/package-lock.json* ./
+
+RUN npm ci --ignore-scripts
+
+# Copy frontend source and build
+COPY tailrelay/webui/frontend/ ./
+
+RUN npm run build
+
+# Build stage for Web UI
+FROM golang:${GO_VERSION}-alpine AS webui-builder
+
+WORKDIR /build
+
+# Install build dependencies
+RUN apk add --no-cache git
+
+# Copy go mod files
+COPY tailrelay/webui/go.mod tailrelay/webui/go.sum ./
+
+# Download dependencies
+RUN go mod download
+
+# Copy source code
+COPY tailrelay/webui/ ./
+
+# Copy Vite dist output from frontend stage
+COPY --from=frontend-builder /build/webui/cmd/webui/web/dist/ ./cmd/webui/web/dist/
+
+# Build metadata arguments — passed dynamically by Makefile
+ARG VERSION=dev
+ARG COMMIT=none
+ARG DATE=unknown
+ARG BRANCH=unknown
+ARG BUILDER=docker
+
+# Build the Web UI binary
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags="-w -s \
+    -X github.com/sudocarlos/tailrelay/cmd/webui.version=${VERSION} \
+    -X github.com/sudocarlos/tailrelay/cmd/webui.commit=${COMMIT} \
+    -X github.com/sudocarlos/tailrelay/cmd/webui.date=${DATE} \
+    -X github.com/sudocarlos/tailrelay/cmd/webui.branch=${BRANCH} \
+    -X github.com/sudocarlos/tailrelay/cmd/webui.builtBy=${BUILDER}" \
+    -o tailrelay-webui ./cmd/webui
+
+# Main image
+FROM tailscale/tailscale:${TAILSCALE_VERSION}
+
+LABEL maintainer="carlos@sudocarlos.com"
+
+ENV RELAY_LIST=
+ENV TS_HOSTNAME=
+ENV TS_EXTRA_FLAGS=
+ENV TS_STATE_DIR=/var/lib/tailscale/
+ENV TS_AUTH_ONCE=true
+ENV TS_ENABLE_METRICS=true
+ENV TS_ENABLE_HEALTH_CHECK=true
+
+RUN apk update && \
+    apk upgrade --no-cache && \
+    apk add --no-cache ca-certificates mailcap caddy socat && \
+    caddy upgrade
+
+# Copy Web UI binary from builder
+COPY --from=webui-builder /build/tailrelay-webui /usr/bin/tailrelay-webui
+
+# Copy Web UI configuration and startup script from submodule
+COPY tailrelay/webui.yaml /etc/tailrelay/webui.yaml
+COPY tailrelay/start.sh /usr/bin/start.sh
+
+RUN chmod +x /usr/bin/start.sh && \
+    mkdir --parents /var/run/tailscale && \
+    mkdir --parents /var/lib/tailscale/backups && \
+    ln -s /tmp/tailscaled.sock /var/run/tailscale/tailscaled.sock && \
+    touch /etc/caddy/Caddyfile
+
+# StartOS layer — entrypoint wrapper and known targets
 COPY docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
 RUN chmod +x /usr/local/bin/docker_entrypoint.sh
-
-# Copy known StartOS service targets
 COPY assets/startos_targets.json /targets.json
+
+EXPOSE 8021
+
+CMD ["start.sh"]

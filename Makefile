@@ -3,6 +3,12 @@ PKG_VERSION := $(shell yq e ".version" manifest.yaml)
 TS_FILES := $(shell find . -name "*.ts" 2>/dev/null)
 PLATFORM ?= linux/amd64
 
+# Build metadata derived from the tailrelay submodule
+UPSTREAM_VERSION := $(shell git -C tailrelay describe --tags --exact-match 2>/dev/null || git -C tailrelay describe --tags 2>/dev/null || echo "dev")
+UPSTREAM_COMMIT  := $(shell git -C tailrelay rev-parse --short HEAD 2>/dev/null || echo "none")
+UPSTREAM_DATE    := $(shell git -C tailrelay log -1 --format=%cI 2>/dev/null || echo "unknown")
+UPSTREAM_BRANCH  := $(shell git -C tailrelay symbolic-ref --short HEAD 2>/dev/null || git -C tailrelay describe --tags --exact-match 2>/dev/null || echo "unknown")
+
 .DELETE_ON_ERROR:
 
 all: verify
@@ -36,5 +42,13 @@ scripts/embassy.js: $(TS_FILES)
 $(PKG_ID).s9pk: manifest.yaml instructions.md LICENSE icon.png scripts/embassy.js docker_entrypoint.sh Dockerfile image.tar
 	start-sdk pack
 
-image.tar: Dockerfile docker_entrypoint.sh
-	docker buildx build --tag start9/$(PKG_ID)/main:$(PKG_VERSION) --platform=$(PLATFORM) -o type=docker,dest=image.tar .
+image.tar: Dockerfile docker_entrypoint.sh tailrelay/Dockerfile
+	docker buildx build \
+		--tag start9/$(PKG_ID)/main:$(PKG_VERSION) \
+		--platform=$(PLATFORM) \
+		--build-arg VERSION=$(UPSTREAM_VERSION) \
+		--build-arg COMMIT=$(UPSTREAM_COMMIT) \
+		--build-arg DATE=$(UPSTREAM_DATE) \
+		--build-arg BRANCH=$(UPSTREAM_BRANCH) \
+		--build-arg BUILDER=start-sdk \
+		-o type=docker,dest=image.tar .
