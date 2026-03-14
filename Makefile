@@ -51,7 +51,9 @@ Dockerfile: tailrelay/Dockerfile Dockerfile.startos
 $(PKG_ID).s9pk: manifest.yaml instructions.md LICENSE icon.png scripts/embassy.js docker_entrypoint.sh Dockerfile image.tar
 	start-sdk pack
 
-image.tar: Dockerfile docker_entrypoint.sh assets/startos_targets.json
+SUBMODULE_HEAD := .git/modules/tailrelay/HEAD
+
+image.tar: Dockerfile docker_entrypoint.sh assets/startos_targets.json $(SUBMODULE_HEAD)
 	docker buildx build \
 		--tag start9/$(PKG_ID)/main:$(PKG_VERSION) \
 		--platform=$(PLATFORM) \
