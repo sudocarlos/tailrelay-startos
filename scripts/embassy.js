@@ -4185,20 +4185,6 @@ const mod4 = {
     guardDurationAboveMinimum: guardDurationAboveMinimum,
     catchError: catchError
 };
-const setConfig1 = async (effects, config)=>{
-    return await mod3.setConfig(effects, config);
-};
-const getConfig1 = mod3.getConfig({
-    "tailscale-auth-key": {
-        type: "string",
-        name: "Tailscale Auth Key",
-        description: "Reusable auth key from your Tailscale admin console (https://login.tailscale.com/admin/settings/keys).",
-        nullable: true,
-        masked: true,
-        copyable: true,
-        placeholder: "tskey-auth-..."
-    }
-});
 const properties1 = mod3.properties;
 const migration = mod3.migrations.fromMapping({
     "0.4.1": {
@@ -4250,15 +4236,33 @@ const migration = mod3.migrations.fromMapping({
             version: "0.6.1",
             type: "script"
         })
+    },
+    "0.6.1": {
+        up: mod3.migrations.updateConfig((config)=>config, true, {
+            version: "0.6.1",
+            type: "script"
+        }),
+        down: mod3.migrations.updateConfig((config)=>config, true, {
+            version: "0.7.0",
+            type: "script"
+        })
+    },
+    "0.7.0": {
+        up: mod3.migrations.updateConfig((config)=>config, true, {
+            version: "0.7.0",
+            type: "script"
+        }),
+        down: mod3.migrations.updateConfig((config)=>config, true, {
+            version: "0.7.1",
+            type: "script"
+        })
     }
-}, "0.6.1");
+}, "0.7.1");
 const health = {
     async "web-ui" (effects, duration) {
         return mod4.checkWebUrl("http://tailrelay.embassy:8021")(effects, duration).catch(mod4.catchError(effects));
     }
 };
-export { setConfig1 as setConfig };
-export { getConfig1 as getConfig };
 export { properties1 as properties };
 export { migration as migration };
 export { health as health };
