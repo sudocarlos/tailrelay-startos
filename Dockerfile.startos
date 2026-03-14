@@ -4,6 +4,8 @@
 # Files from this repo are accessed via the named build context 'startos'
 # (passed as --build-context startos=. in the make target).
 
-COPY --from=startos docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
-RUN chmod +x /usr/local/bin/docker_entrypoint.sh
+COPY --from=startos --chmod=0755 docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
 COPY --from=startos assets/startos_targets.json /targets.json
+
+# Repeat CMD so it remains the final instruction after concatenation with upstream
+CMD ["start.sh"]
