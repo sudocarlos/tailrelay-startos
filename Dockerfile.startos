@@ -1,0 +1,9 @@
+# StartOS layer — appended to tailrelay/Dockerfile during build
+# Do not edit Dockerfile directly; edit this file and run: make Dockerfile
+#
+# Files from this repo are accessed via the named build context 'startos'
+# (passed as --build-context startos=. in the make target).
+
+COPY --from=startos docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
+RUN chmod +x /usr/local/bin/docker_entrypoint.sh
+COPY --from=startos assets/startos_targets.json /targets.json

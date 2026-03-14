@@ -23,6 +23,7 @@ clean:
 	rm -f $(PKG_ID).s9pk
 	rm -f scripts/*.js
 	rm -rf docker-images/
+	rm -f image.tar
 
 verify: $(PKG_ID).s9pk
 	@start-sdk verify s9pk $(PKG_ID).s9pk
@@ -39,10 +40,18 @@ endif
 scripts/embassy.js: $(TS_FILES)
 	deno run --allow-read --allow-write --allow-env --allow-net scripts/bundle.ts
 
+Dockerfile: tailrelay/Dockerfile Dockerfile.startos
+	@# The upstream Dockerfile starts with '# syntax=docker/dockerfile:1' which must
+	@# remain on line 1 for BuildKit. We prepend our notice as inline comments after it.
+	@head -1 tailrelay/Dockerfile > Dockerfile
+	@echo "# Generated — do not edit directly. Edit Dockerfile.startos and run: make Dockerfile" >> Dockerfile
+	@tail -n +2 tailrelay/Dockerfile >> Dockerfile
+	@cat Dockerfile.startos >> Dockerfile
+
 $(PKG_ID).s9pk: manifest.yaml instructions.md LICENSE icon.png scripts/embassy.js docker_entrypoint.sh Dockerfile image.tar
 	start-sdk pack
 
-image.tar: Dockerfile docker_entrypoint.sh tailrelay/Dockerfile
+image.tar: Dockerfile docker_entrypoint.sh assets/startos_targets.json
 	docker buildx build \
 		--tag start9/$(PKG_ID)/main:$(PKG_VERSION) \
 		--platform=$(PLATFORM) \
@@ -51,4 +60,7 @@ image.tar: Dockerfile docker_entrypoint.sh tailrelay/Dockerfile
 		--build-arg DATE=$(UPSTREAM_DATE) \
 		--build-arg BRANCH=$(UPSTREAM_BRANCH) \
 		--build-arg BUILDER=start-sdk \
-		-o type=docker,dest=image.tar .
+		--build-context startos=. \
+		--file Dockerfile \
+		-o type=docker,dest=image.tar \
+		tailrelay
