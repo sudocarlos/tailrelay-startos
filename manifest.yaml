@@ -1,8 +1,8 @@
 id: tailrelay
 title: Tailrelay
-version: 0.8.1
+version: 0.8.2
 release-notes: |
-  Upstream release v0.8.1: require http/https scheme for HTTPS relay target.
+  Upstream release v0.8.2: security fixes for backup path traversal, zip-slip restore, path guard bypass, and header injection; HTTPS relay targets now accept bare host:port without a scheme prefix.
 license: mit
 wrapper-repo: "https://github.com/sudocarlos/tailrelay-startos"
 upstream-repo: "https://github.com/sudocarlos/tailrelay"

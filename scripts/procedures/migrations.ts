@@ -86,4 +86,40 @@ export const migration: T.ExpectedExports.migration = compat.migrations
         { version: "0.7.1", type: "script" }
       ),
     },
-  }, "0.7.1");
+    "0.7.1": {
+      up: compat.migrations.updateConfig(
+        (config: any) => config,
+        true,
+        { version: "0.7.1", type: "script" }
+      ),
+      down: compat.migrations.updateConfig(
+        (config: any) => config,
+        true,
+        { version: "0.8.0", type: "script" }
+      ),
+    },
+    "0.8.0": {
+      up: compat.migrations.updateConfig(
+        (config: any) => config,
+        true,
+        { version: "0.8.0", type: "script" }
+      ),
+      down: compat.migrations.updateConfig(
+        (config: any) => config,
+        true,
+        { version: "0.8.1", type: "script" }
+      ),
+    },
+    "0.8.1": {
+      up: compat.migrations.updateConfig(
+        (config: any) => config,
+        true,
+        { version: "0.8.1", type: "script" }
+      ),
+      down: compat.migrations.updateConfig(
+        (config: any) => config,
+        true,
+        { version: "0.8.2", type: "script" }
+      ),
+    },
+  }, "0.8.2");
