@@ -47,12 +47,22 @@ def fetch_index(registry_name, url):
 def _make_target(
     app_id, host, title, iface_data, iface_id, internal_port, ssl, registry_name
 ):
-    """Build a single target dict from resolved interface and port info."""
+    """Build a single target dict from resolved interface and port info.
+
+    The ``ssl`` flag indicates that the StartOS LAN proxy terminates TLS
+    externally; it does NOT mean the internal service speaks HTTPS.  Protocol
+    is therefore derived exclusively from the ``protocols`` list declared in
+    the interface:
+
+      - "https" listed  → target_protocol = "https"
+      - "http" listed   → target_protocol = "http"
+      - neither         → target_protocol = "tcp"
+    """
     protocols = iface_data.get("protocols", [])
     is_http = "http" in protocols or "https" in protocols
     target_type = "proxy" if is_http else "relay"
 
-    if ssl:
+    if "https" in protocols:
         target_protocol = "https"
     elif is_http:
         target_protocol = "http"
