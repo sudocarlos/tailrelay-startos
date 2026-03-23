@@ -4,7 +4,7 @@
     "host": "albyhub.embassy",
     "port": 8080,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Alby Hub - User Interface (port 8080)",
     "registry": "start9"
   },
@@ -13,7 +13,7 @@
     "host": "balanceofsatoshis.embassy",
     "port": 3000,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Balance of Satoshis - Network Interface (port 3000)",
     "registry": "community"
   },
@@ -22,7 +22,7 @@
     "host": "bisq.embassy",
     "port": 3000,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Bisq - User Interface (port 3000)",
     "registry": "community"
   },
@@ -40,7 +40,7 @@
     "host": "bitcoind.embassy",
     "port": 8332,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Bitcoin Core - RPC Interface (port 8332)",
     "registry": "start9"
   },
@@ -103,7 +103,7 @@
     "host": "bitcoind-testnet.embassy",
     "port": 48332,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Bitcoin Core (testnet4) - RPC Interface (port 48332)",
     "registry": "community"
   },
@@ -112,7 +112,7 @@
     "host": "btcpayserver.embassy",
     "port": 80,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "BTCPay Server - Web Interface (port 80)",
     "registry": "start9"
   },
@@ -121,7 +121,7 @@
     "host": "burn-after-reading.embassy",
     "port": 80,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Burn After Reading - Web Interface (port 80)",
     "registry": "start9"
   },
@@ -130,7 +130,7 @@
     "host": "c-lightning.embassy",
     "port": 2106,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Core Lightning - gRPC (port 2106)",
     "registry": "start9"
   },
@@ -148,7 +148,7 @@
     "host": "c-lightning.embassy",
     "port": 4500,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Core Lightning - Web User Interface (port 4500)",
     "registry": "start9"
   },
@@ -157,7 +157,7 @@
     "host": "c-lightning.embassy",
     "port": 7272,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Core Lightning - Clams Websocket (port 7272)",
     "registry": "start9"
   },
@@ -184,7 +184,7 @@
     "host": "c-lightning.embassy",
     "port": 9814,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Core Lightning - TEOS Watchtower API (port 9814)",
     "registry": "start9"
   },
@@ -193,7 +193,7 @@
     "host": "canary.embassy",
     "port": 3001,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Canary - Web Interface (port 3001)",
     "registry": "community"
   },
@@ -202,7 +202,7 @@
     "host": "clams-remote.embassy",
     "port": 80,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Remote - Clams Remote (port 80)",
     "registry": "community"
   },
@@ -211,7 +211,7 @@
     "host": "cryptpad.embassy",
     "port": 3000,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "CryptPad - Web UI (port 3000)",
     "registry": "community"
   },
@@ -220,7 +220,7 @@
     "host": "cryptpad.embassy",
     "port": 3000,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "CryptPad - Sandbox UI (port 3000)",
     "registry": "community"
   },
@@ -229,7 +229,7 @@
     "host": "cups.embassy",
     "port": 80,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Cups Messenger - Web Interface (port 80)",
     "registry": "community"
   },
@@ -247,7 +247,7 @@
     "host": "datum.embassy",
     "port": 7152,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Datum Gateway - Web UI (port 7152)",
     "registry": "community"
   },
@@ -265,7 +265,7 @@
     "host": "deepsea-dashboard.embassy",
     "port": 5000,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "DeepSea Dashboard - User Interface (port 5000)",
     "registry": "community"
   },
@@ -337,7 +337,7 @@
     "host": "fedimintd.embassy",
     "port": 8175,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Fedimint - Guardian Interface (port 8175)",
     "registry": "community"
   },
@@ -346,7 +346,7 @@
     "host": "filebrowser.embassy",
     "port": 8080,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "File Browser - Web UI (port 8080)",
     "registry": "start9"
   },
@@ -355,7 +355,7 @@
     "host": "free-gpt.embassy",
     "port": 8080,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "FreeGPT-2 - User Interface (port 8080)",
     "registry": "start9"
   },
@@ -373,7 +373,7 @@
     "host": "ghost.embassy",
     "port": 2368,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Ghost - Network Interface (port 2368)",
     "registry": "start9"
   },
@@ -382,7 +382,7 @@
     "host": "gitea.embassy",
     "port": 3000,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Gitea - Web UI / Git HTTPS/SSH (port 3000)",
     "registry": "start9"
   },
@@ -391,7 +391,7 @@
     "host": "helipad.embassy",
     "port": 2112,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Helipad - Helipad Web Interface (port 2112)",
     "registry": "community"
   },
@@ -400,7 +400,7 @@
     "host": "ipfs.embassy",
     "port": 5001,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "IPFS - API / Web UI (port 5001)",
     "registry": "community"
   },
@@ -409,7 +409,7 @@
     "host": "ipfs.embassy",
     "port": 8080,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "IPFS - IPFS Gateway (port 8080)",
     "registry": "community"
   },
@@ -427,7 +427,7 @@
     "host": "ipfs-podcasting.embassy",
     "port": 5001,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "IPFS Podcasting - IPFS UI (port 5001)",
     "registry": "community"
   },
@@ -436,7 +436,7 @@
     "host": "jam.embassy",
     "port": 80,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Jam - Jam Web UI (port 80)",
     "registry": "start9"
   },
@@ -445,7 +445,7 @@
     "host": "jellyfin.embassy",
     "port": 8096,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Jellyfin - User Interface (port 8096)",
     "registry": "start9"
   },
@@ -454,7 +454,7 @@
     "host": "lightning-terminal.embassy",
     "port": 8443,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Lightning Terminal - Lightning Terminal Web Interface (port 8443)",
     "registry": "start9"
   },
@@ -463,7 +463,7 @@
     "host": "lnbits.embassy",
     "port": 5000,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "LNBits - LNBits Web Interface (port 5000)",
     "registry": "start9"
   },
@@ -472,7 +472,7 @@
     "host": "lnd.embassy",
     "port": 8080,
     "type": "proxy",
-    "protocol": "http",
+    "protocol": "https",
     "target_name": "LND - Control Interface (port 8080)",
     "registry": "start9"
   },
@@ -499,7 +499,7 @@
     "host": "lnd.embassy",
     "port": 10009,
     "type": "proxy",
-    "protocol": "http",
+    "protocol": "https",
     "target_name": "LND - Control Interface (port 10009)",
     "registry": "start9"
   },
@@ -508,7 +508,7 @@
     "host": "lndg.embassy",
     "port": 8889,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "LNDg - Browser Interface (port 8889)",
     "registry": "community"
   },
@@ -544,7 +544,7 @@
     "host": "mempool.embassy",
     "port": 8080,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Mempool - Mempool Interface (port 8080)",
     "registry": "start9"
   },
@@ -580,7 +580,7 @@
     "host": "monerod.embassy",
     "port": 18089,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Monero - RPC Interface (port 18089)",
     "registry": "community"
   },
@@ -589,7 +589,7 @@
     "host": "monerod.embassy",
     "port": 28088,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Monero - Wallet RPC Interface (port 28088)",
     "registry": "community"
   },
@@ -598,7 +598,7 @@
     "host": "nextcloud.embassy",
     "port": 8080,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Nextcloud - Nextcloud Web Interface (port 8080)",
     "registry": "start9"
   },
@@ -607,7 +607,7 @@
     "host": "nostr.embassy",
     "port": 8080,
     "type": "proxy",
-    "protocol": "https",
+    "protocol": "http",
     "target_name": "Nostr RS Relay - Websocket Interface (port 8080)",
     "registry": "start9"
   }

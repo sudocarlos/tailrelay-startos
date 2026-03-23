@@ -3,11 +3,15 @@ PKG_VERSION := $(shell yq e ".version" manifest.yaml)
 TS_FILES := $(shell find . -name "*.ts" 2>/dev/null)
 PLATFORM ?= linux/amd64
 
-# Build metadata derived from the tailrelay submodule
-UPSTREAM_VERSION := $(shell git -C tailrelay describe --tags --exact-match 2>/dev/null || git -C tailrelay describe --tags 2>/dev/null || echo "dev")
-UPSTREAM_COMMIT  := $(shell git -C tailrelay rev-parse --short HEAD 2>/dev/null || echo "none")
-UPSTREAM_DATE    := $(shell git -C tailrelay log -1 --format=%cI 2>/dev/null || echo "unknown")
-UPSTREAM_BRANCH  := $(shell git -C tailrelay symbolic-ref --short HEAD 2>/dev/null || git -C tailrelay describe --tags --exact-match 2>/dev/null || echo "unknown")
+# Path to the tailrelay source tree. Override to use a local sibling repo:
+#   make TAILRELAY_DIR=../tailrelay
+TAILRELAY_DIR ?= tailrelay
+
+# Build metadata derived from the tailrelay source tree
+UPSTREAM_VERSION := $(shell git -C $(TAILRELAY_DIR) describe --tags --exact-match 2>/dev/null || git -C $(TAILRELAY_DIR) describe --tags 2>/dev/null || echo "dev")
+UPSTREAM_COMMIT  := $(shell git -C $(TAILRELAY_DIR) rev-parse --short HEAD 2>/dev/null || echo "none")
+UPSTREAM_DATE    := $(shell git -C $(TAILRELAY_DIR) log -1 --format=%cI 2>/dev/null || echo "unknown")
+UPSTREAM_BRANCH  := $(shell git -C $(TAILRELAY_DIR) symbolic-ref --short HEAD 2>/dev/null || git -C $(TAILRELAY_DIR) describe --tags --exact-match 2>/dev/null || echo "unknown")
 
 .DELETE_ON_ERROR:
 
@@ -40,20 +44,27 @@ endif
 scripts/embassy.js: $(TS_FILES)
 	deno run --allow-read --allow-write --allow-env --allow-net scripts/bundle.ts
 
-Dockerfile: tailrelay/Dockerfile Dockerfile.startos
+Dockerfile: $(TAILRELAY_DIR)/Dockerfile Dockerfile.startos
 	@# The upstream Dockerfile starts with '# syntax=docker/dockerfile:1' which must
 	@# remain on line 1 for BuildKit. We prepend our notice as inline comments after it.
-	@head -1 tailrelay/Dockerfile > Dockerfile
+	@head -1 $(TAILRELAY_DIR)/Dockerfile > Dockerfile
 	@echo "# Generated — do not edit directly. Edit Dockerfile.startos and run: make Dockerfile" >> Dockerfile
-	@tail -n +2 tailrelay/Dockerfile >> Dockerfile
+	@tail -n +2 $(TAILRELAY_DIR)/Dockerfile >> Dockerfile
 	@cat Dockerfile.startos >> Dockerfile
 
 $(PKG_ID).s9pk: manifest.yaml instructions.md LICENSE icon.png scripts/embassy.js docker_entrypoint.sh Dockerfile image.tar
 	start-sdk pack
 
-SUBMODULE_HEAD := .git/modules/tailrelay/HEAD
+# Sentinel file that changes whenever the tailrelay source tree's HEAD changes.
+# For the default submodule, the real HEAD lives in .git/modules/tailrelay/HEAD.
+# For a sibling repo (e.g. TAILRELAY_DIR=../tailrelay) it lives at $(TAILRELAY_DIR)/.git/HEAD.
+ifeq ($(TAILRELAY_DIR),tailrelay)
+TAILRELAY_HEAD := .git/modules/tailrelay/HEAD
+else
+TAILRELAY_HEAD := $(TAILRELAY_DIR)/.git/HEAD
+endif
 
-image.tar: Dockerfile docker_entrypoint.sh assets/startos_targets.json $(SUBMODULE_HEAD)
+image.tar: Dockerfile docker_entrypoint.sh assets/startos_targets.json $(TAILRELAY_HEAD)
 	docker buildx build \
 		--tag start9/$(PKG_ID)/main:$(PKG_VERSION) \
 		--platform=$(PLATFORM) \
@@ -65,4 +76,4 @@ image.tar: Dockerfile docker_entrypoint.sh assets/startos_targets.json $(SUBMODU
 		--build-context startos=. \
 		--file Dockerfile \
 		-o type=docker,dest=image.tar \
-		tailrelay
+		$(TAILRELAY_DIR)
