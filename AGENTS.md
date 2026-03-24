@@ -4,7 +4,7 @@ This document provides guidance for AI coding agents working on this codebase.
 
 ## Project Overview
 
-This is a **StartOS package wrapper** for [Tailrelay](https://github.com/sudocarlos/tailrelay) using the **Embassy SDK** (`embassyd_sdk` v0.3.3). The package wraps a pre-built Docker image (`sudocarlos/tailrelay:latest`) and provides StartOS integration (interfaces, config, health checks, backups, migrations).
+This is a **StartOS package wrapper** for [Tailrelay](https://github.com/sudocarlos/tailrelay) using the **Embassy SDK** (`embassyd_sdk` v0.3.3). The package builds a Docker image from the `tailrelay` submodule and provides StartOS integration (interfaces, health checks, backups, migrations).
 
 **Tech Stack:**
 
@@ -77,7 +77,8 @@ export * from "https://deno.land/x/embassyd_sdk@v0.3.3.0.11/mod.ts";
 ├── .agents/                 # Agent skills and configuration
 │   └── skills/
 │       ├── git-workflow/       # Git commit/branch/PR conventions
-│       └── startos-packaging/  # Complete StartOS service packaging guide (.s9pk)
+│       ├── startos-packaging/  # Complete StartOS service packaging guide (.s9pk)
+│       └── create-release/     # Release process for tailrelay-startos
 ├── assets/                  # Extra files (currently just README.md)
 ├── scripts/                 # Deno TypeScript source
 │   ├── bundle.ts            # Deno bundler script (compiles embassy.ts → embassy.js)
@@ -85,17 +86,14 @@ export * from "https://deno.land/x/embassyd_sdk@v0.3.3.0.11/mod.ts";
 │   ├── embassy.ts           # Entry point — re-exports all procedures
 │   ├── embassy.js           # Compiled output (generated, do not edit)
 │   └── procedures/          # StartOS integration procedures
-│       ├── getConfig.ts     # Config form definition (Tailscale Auth Key)
-│       ├── setConfig.ts     # Config persistence
 │       ├── healthChecks.ts  # Web UI health check (HTTP check on port 8021)
-│       ├── migrations.ts    # Version migrations (0.4.2 ↔ 0.4.3)
+│       ├── migrations.ts    # Version migrations
 │       └── properties.ts   # Service properties display
 ├── Dockerfile               # Extends sudocarlos/tailrelay:latest with entrypoint
-├── docker_entrypoint.sh     # Reads StartOS config, sets TS_AUTHKEY, execs start.sh
+├── docker_entrypoint.sh     # Ensures required directories exist, execs start.sh
 ├── manifest.yaml            # Package metadata, volumes, interfaces, backup config
 ├── instructions.md          # User-facing instructions (shown in StartOS UI)
 ├── icon.png                 # Package icon
-├── icon.svg                 # Package icon (vector)
 ├── Makefile                 # Build orchestration
 ├── LICENSE                  # MIT
 └── README.md                # Project overview
@@ -107,13 +105,11 @@ export * from "https://deno.land/x/embassyd_sdk@v0.3.3.0.11/mod.ts";
 |------|---------|
 | `manifest.yaml` | Package metadata: ID, version, volumes, interfaces, backup/restore, migrations, health checks |
 | `scripts/embassy.ts` | Entry point that re-exports all procedure functions |
-| `scripts/procedures/getConfig.ts` | Defines the configuration form (Tailscale Auth Key) |
-| `scripts/procedures/setConfig.ts` | Persists user config via `compat.setConfig` |
 | `scripts/procedures/healthChecks.ts` | HTTP health check against `http://tailrelay.embassy:8021` |
-| `scripts/procedures/migrations.ts` | Version migration mappings (currently 0.4.2 ↔ 0.4.3) |
+| `scripts/procedures/migrations.ts` | Version migration mappings |
 | `scripts/procedures/properties.ts` | Exports `compat.properties` for the properties display |
-| `docker_entrypoint.sh` | Reads config YAML, exports `TS_AUTHKEY`, starts upstream service |
-| `Dockerfile` | Extends `sudocarlos/tailrelay:latest`, copies entrypoint |
+| `docker_entrypoint.sh` | Ensures required directories exist, execs `start.sh` |
+| `Dockerfile` | Built from `tailrelay` submodule + StarOS layer; copies entrypoint |
 
 ## Embassy SDK Patterns
 
@@ -162,14 +158,7 @@ export const migration: T.ExpectedExports.migration = compat.migrations
 ## Adding New Versions
 
 1. Update `manifest.yaml` — bump `version` and update `release-notes`
-2. Update `scripts/procedures/migrations.ts` — add a new migration entry in the mapping
-3. Rebuild: `make clean && make`
-
-## Package Configuration
-
-The package exposes one config field:
-
-- **Tailscale Auth Key** — A reusable auth key from the [Tailscale admin console](https://login.tailscale.com/admin/settings/keys). Stored in `/data/start9/config.yaml` and read by `docker_entrypoint.sh` at startup.
+2. Rebuild: `make clean && make`
 
 ## Volumes
 
