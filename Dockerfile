@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # Generated — do not edit directly. Edit Dockerfile.startos and run: make Dockerfile
 # check=skip=SecretsUsedInArgOrEnv
-ARG TAILSCALE_VERSION=v1.92.5
+ARG TAILSCALE_VERSION=v1.96.4
 ARG CADDY_VERSION=2.11.2
 ARG GO_VERSION=1.26.1
 ARG NODE_VERSION=24
@@ -62,11 +62,11 @@ ARG BUILDER=docker
 
 # Build the Web UI binary
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags="-w -s \
-    -X github.com/sudocarlos/tailrelay/cmd/webui.version=${VERSION} \
-    -X github.com/sudocarlos/tailrelay/cmd/webui.commit=${COMMIT} \
-    -X github.com/sudocarlos/tailrelay/cmd/webui.date=${DATE} \
-    -X github.com/sudocarlos/tailrelay/cmd/webui.branch=${BRANCH} \
-    -X github.com/sudocarlos/tailrelay/cmd/webui.builtBy=${BUILDER}" \
+    -X main.Version=${VERSION} \
+    -X main.Commit=${COMMIT} \
+    -X main.BuildTime=${DATE} \
+    -X main.branch=${BRANCH} \
+    -X main.builtBy=${BUILDER}" \
     -o /tailrelay-webui ./cmd/webui
 
 # Build Tailscale binaries from source at the pinned version tag
