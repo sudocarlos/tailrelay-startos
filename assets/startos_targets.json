@@ -594,6 +594,15 @@
     "registry": "community"
   },
   {
+    "app_id": "my-speed",
+    "host": "my-speed.embassy",
+    "port": 5216,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "MySpeed - User Interface (port 5216)",
+    "registry": "community"
+  },
+  {
     "app_id": "nextcloud",
     "host": "nextcloud.embassy",
     "port": 8080,
@@ -610,5 +619,230 @@
     "protocol": "http",
     "target_name": "Nostr RS Relay - Websocket Interface (port 8080)",
     "registry": "start9"
+  },
+  {
+    "app_id": "nostrudel",
+    "host": "nostrudel.embassy",
+    "port": 8080,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "noStrudel - User Interface (port 8080)",
+    "registry": "start9"
+  },
+  {
+    "app_id": "photoview",
+    "host": "photoview.embassy",
+    "port": 80,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Photoview - Web Interface (port 80)",
+    "registry": "community"
+  },
+  {
+    "app_id": "public-pool",
+    "host": "public-pool.embassy",
+    "port": 80,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Public Pool - User Interface (port 80)",
+    "registry": "community"
+  },
+  {
+    "app_id": "ride-the-lightning",
+    "host": "ride-the-lightning.embassy",
+    "port": 80,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Ride the Lightning - Browser Interface (port 80)",
+    "registry": "start9"
+  },
+  {
+    "app_id": "robosats",
+    "host": "robosats.embassy",
+    "port": 12596,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "RoboSats - User Interface (port 12596)",
+    "registry": "start9"
+  },
+  {
+    "app_id": "searxng",
+    "host": "searxng.embassy",
+    "port": 8080,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "SearXNG - SearXNG Web Interface (port 8080)",
+    "registry": "start9"
+  },
+  {
+    "app_id": "simplex",
+    "host": "simplex.embassy",
+    "port": 443,
+    "type": "relay",
+    "protocol": "tcp",
+    "target_name": "SimpleX Server - SimpleX XFTP Interface (port 443)",
+    "registry": "start9"
+  },
+  {
+    "app_id": "simplex",
+    "host": "simplex.embassy",
+    "port": 5223,
+    "type": "relay",
+    "protocol": "tcp",
+    "target_name": "SimpleX Server - SimpleX SMP Interface (port 5223)",
+    "registry": "start9"
+  },
+  {
+    "app_id": "sparrow-webtop",
+    "host": "sparrow-webtop.embassy",
+    "port": 3000,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Sparrow - User Interface (port 3000)",
+    "registry": "community"
+  },
+  {
+    "app_id": "specter",
+    "host": "specter.embassy",
+    "port": 25441,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Specter - Specter Web Interface (port 25441)",
+    "registry": "community"
+  },
+  {
+    "app_id": "sphinx-relay",
+    "host": "sphinx-relay.embassy",
+    "port": 3300,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Sphinx Chat - Network Interface (port 3300)",
+    "registry": "community"
+  },
+  {
+    "app_id": "synapse",
+    "host": "synapse.embassy",
+    "port": 80,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Synapse - Homeserver Address (port 80)",
+    "registry": "start9"
+  },
+  {
+    "app_id": "synapse",
+    "host": "synapse.embassy",
+    "port": 443,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Synapse - Homeserver Address (port 443)",
+    "registry": "start9"
+  },
+  {
+    "app_id": "synapse",
+    "host": "synapse.embassy",
+    "port": 8080,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Synapse - Admin Portal (port 8080)",
+    "registry": "start9"
+  },
+  {
+    "app_id": "synapse",
+    "host": "synapse.embassy",
+    "port": 8448,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Synapse - Homeserver Address (port 8448)",
+    "registry": "start9"
+  },
+  {
+    "app_id": "syncthing",
+    "host": "syncthing.embassy",
+    "port": 8384,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Syncthing - Syncthing UI (port 8384)",
+    "registry": "community"
+  },
+  {
+    "app_id": "syncthing",
+    "host": "syncthing.embassy",
+    "port": 22000,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Syncthing - Listening Port (port 22000)",
+    "registry": "community"
+  },
+  {
+    "app_id": "thunderhub",
+    "host": "thunderhub.embassy",
+    "port": 3000,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "ThunderHub - Browser Interface (port 3000)",
+    "registry": "community"
+  },
+  {
+    "app_id": "umbrel-bitcoin-ui",
+    "host": "umbrel-bitcoin-ui.embassy",
+    "port": 3000,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Umbrel Bitcoin UI - User Interface (port 3000)",
+    "registry": "community"
+  },
+  {
+    "app_id": "uptime-kuma",
+    "host": "uptime-kuma.embassy",
+    "port": 3001,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Uptime Kuma - User Interface (port 3001)",
+    "registry": "community"
+  },
+  {
+    "app_id": "utxoracle",
+    "host": "utxoracle.embassy",
+    "port": 80,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "UTXOracle - Main Interface (port 80)",
+    "registry": "community"
+  },
+  {
+    "app_id": "vaultwarden",
+    "host": "vaultwarden.embassy",
+    "port": 8080,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Vaultwarden - Web Interface/Bitwarden Protocol (port 8080)",
+    "registry": "start9"
+  },
+  {
+    "app_id": "wasabi-webtop",
+    "host": "wasabi-webtop.embassy",
+    "port": 3000,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Wasabi - User Interface (port 3000)",
+    "registry": "community"
+  },
+  {
+    "app_id": "wasabi-webtop",
+    "host": "wasabi-webtop.embassy",
+    "port": 37128,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Wasabi - RPC Interface (port 37128)",
+    "registry": "community"
+  },
+  {
+    "app_id": "webtop",
+    "host": "webtop.embassy",
+    "port": 3000,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Webtop - User Interface (port 3000)",
+    "registry": "community"
   }
 ]

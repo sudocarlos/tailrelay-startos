@@ -29,19 +29,44 @@ OUTPUT_FILE = os.path.join(SCRIPT_DIR, "..", "assets", "startos_targets.json")
 
 
 def fetch_index(registry_name, url):
-    """Fetch the package index from a Start9 registry API endpoint."""
-    try:
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=30) as response:
-            return json.load(response)
-    except urllib.error.HTTPError as e:
-        print(
-            f"  HTTP {e.code} fetching {registry_name} registry: {e.reason}",
-            file=sys.stderr,
-        )
-    except Exception as e:
-        print(f"  Error fetching {registry_name} registry: {e}", file=sys.stderr)
-    return []
+    """Fetch all pages of the package index from a Start9 registry API endpoint.
+
+    The registry defaults to 20 results per page.  We request 100 per page and
+    iterate until an empty page is returned.
+    """
+    results = []
+    page = 1
+    per_page = 100
+    while True:
+        paged_url = f"{url}?per-page={per_page}&page={page}"
+        try:
+            req = urllib.request.Request(
+                paged_url, headers={"User-Agent": "Mozilla/5.0"}
+            )
+            with urllib.request.urlopen(req, timeout=30) as response:
+                data = json.load(response)
+        except urllib.error.HTTPError as e:
+            print(
+                f"  HTTP {e.code} fetching {registry_name} registry (page {page}): {e.reason}",
+                file=sys.stderr,
+            )
+            break
+        except Exception as e:
+            print(
+                f"  Error fetching {registry_name} registry (page {page}): {e}",
+                file=sys.stderr,
+            )
+            break
+
+        if not data:
+            break
+        results.extend(data)
+        if len(data) < per_page:
+            # Last page — no more results
+            break
+        page += 1
+
+    return results
 
 
 def _make_target(
