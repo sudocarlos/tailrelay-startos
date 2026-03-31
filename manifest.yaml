@@ -1,8 +1,8 @@
 id: tailrelay
 title: Tailrelay
-version: 0.8.4
+version: 0.8.6
 release-notes: |
-  Upstream release v0.8.4: Tailscale updated to v1.96.4; fixed metrics reset handler to correctly handle 204 no-content responses; Web UI footer now displays commit short hash alongside version; corrected build linker flag paths.
+  Upstream release v0.8.6: added custom host header override for HTTPS proxies; truncate long relay target hostnames in metrics view; improved tooltip usability on mouse and touch; fixed log component field resolution; security fix for picomatch (CVE-2026-33672).
 license: mit
 wrapper-repo: "https://github.com/sudocarlos/tailrelay-startos"
 upstream-repo: "https://github.com/sudocarlos/tailrelay"
