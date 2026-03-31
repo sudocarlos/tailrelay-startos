@@ -263,10 +263,10 @@
   {
     "app_id": "deepsea-dashboard",
     "host": "deepsea-dashboard.embassy",
-    "port": 5000,
+    "port": 8000,
     "type": "proxy",
     "protocol": "http",
-    "target_name": "DeepSea Dashboard - User Interface (port 5000)",
+    "target_name": "DeepSea Dashboard - User Interface (port 8000)",
     "registry": "community"
   },
   {
