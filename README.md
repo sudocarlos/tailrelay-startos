@@ -7,25 +7,28 @@ StartOS wrapper for [Tailrelay](https://github.com/sudocarlos/tailrelay) — exp
 ### Prerequisites
 
 - [Docker](https://docs.docker.com/get-docker/) (with [buildx](https://docs.docker.com/buildx/working-with-buildx/))
+- [Node.js](https://nodejs.org/) and npm
 - [Make](https://www.gnu.org/software/make/)
-- [yq](https://github.com/mikefarah/yq) — YAML processor
-- [start-sdk](https://github.com/Start9Labs/start-os) — see [packaging docs](https://docs.start9.com/0.3.5.x/developer-docs/packaging)
+- [start-cli](https://docs.start9.com/latest/developer-guide/sdk/installing-the-sdk) — see [packaging docs](https://docs.start9.com/packaging/)
 
 ### Build
 
 ```bash
-make            # build Docker image, pack, and verify
+npm ci          # install dependencies (first time only)
+make            # build both x86_64 and aarch64 packages
+make x86        # build x86_64 only
+make arm64      # build aarch64 only
 ```
 
 ### Install to StartOS Device
 
 ```bash
-make install    # requires ~/.embassy/config.yaml, see below
+make install    # requires ~/.startos/config.yaml with host: http://your-server.local
 ```
 
 ## Sideloading
 
-1. Clone this repo and run the `make` command or download the package from [the releases page](https://github.com/sudocarlos/tailrelay-startos/releases).
+1. Clone this repo and run `npm ci && make`, or download the package from [the releases page](https://github.com/sudocarlos/tailrelay-startos/releases).
 2. Install the package:
    - In the StartOS web UI menu, navigate to **System -> Sideload Service**.
    - Drag and drop or select the `<package>.s9pk` from your filesystem to install.

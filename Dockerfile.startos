@@ -7,5 +7,6 @@
 COPY --from=startos --chmod=0755 docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
 COPY --from=startos assets/startos_targets.json /targets.json
 
-# Repeat CMD so it remains the final instruction after concatenation with upstream
-CMD ["start.sh"]
+# Override CMD so the StartOS entrypoint (which mkdir -p's required dirs then
+# execs start.sh) runs instead of the upstream default.
+CMD ["/usr/local/bin/docker_entrypoint.sh"]
