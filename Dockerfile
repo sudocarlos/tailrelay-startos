@@ -16,12 +16,12 @@ FROM node:${NODE_VERSION}-alpine AS frontend-builder
 WORKDIR /build/webui/frontend
 
 # Copy package files first for layer caching
-COPY webui/frontend/package.json webui/frontend/package-lock.json* ./
+COPY tailrelay/webui/frontend/package.json tailrelay/webui/frontend/package-lock.json* ./
 
 RUN npm ci --ignore-scripts
 
 # Copy frontend source and build
-COPY webui/frontend/ ./
+COPY tailrelay/webui/frontend/ ./
 
 ARG VERSION=dev
 RUN npm version --no-git-tag-version --allow-same-version ${VERSION} 2>/dev/null || true
@@ -42,13 +42,13 @@ FROM golang:${GO_VERSION}-alpine AS webui-builder
 WORKDIR /build
 
 # Copy go mod files
-COPY webui/go.mod webui/go.sum ./
+COPY tailrelay/webui/go.mod tailrelay/webui/go.sum ./
 
 # Download dependencies
 RUN go mod download
 
 # Copy source code
-COPY webui/ ./
+COPY tailrelay/webui/ ./
 
 # Copy Vite dist output from frontend stage
 COPY --from=frontend-builder /build/webui/cmd/webui/web/dist/ ./cmd/webui/web/dist/
@@ -80,7 +80,7 @@ RUN go install -ldflags="-w -s" \
 
 # Dev binary stage — copies pre-built binary from local ./data
 FROM scratch AS binary-dev
-COPY data/tailrelay-webui /tailrelay-webui
+COPY tailrelay/data/tailrelay-webui /tailrelay-webui
 
 # Select binary source: webui-builder (default) or binary-dev (--build-arg WEBUI_SOURCE=binary-dev)
 FROM ${WEBUI_SOURCE} AS binary-source
@@ -132,9 +132,9 @@ COPY --from=caddy-builder /caddy /usr/bin/caddy
 COPY --from=binary-source /tailrelay-webui /usr/bin/tailrelay-webui
 
 # Copy Web UI configuration
-COPY webui.yaml /etc/tailrelay/webui.yaml
+COPY tailrelay/webui.yaml /etc/tailrelay/webui.yaml
 
-COPY start.sh /usr/bin/start.sh
+COPY tailrelay/start.sh /usr/bin/start.sh
 RUN chmod +x /usr/bin/start.sh && \
     mkdir --parents /var/run/tailscale && \
     mkdir --parents /var/lib/tailscale/backups && \
@@ -148,12 +148,10 @@ EXPOSE 8021
 CMD  [ "start.sh" ]
 # StartOS layer — appended to tailrelay/Dockerfile during build
 # Do not edit Dockerfile directly; edit this file and run: make Dockerfile
-#
-# Files from this repo are accessed via the named build context 'startos'
-# (passed as --build-context startos=. in the make target).
 
-COPY --from=startos --chmod=0755 docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
-COPY --from=startos assets/startos_targets.json /targets.json
+COPY --chmod=0755 docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
+COPY assets/startos_targets.json /targets.json
 
-# Repeat CMD so it remains the final instruction after concatenation with upstream
-CMD ["start.sh"]
+# Override CMD so the StartOS entrypoint (which mkdir -p's required dirs then
+# execs start.sh) runs instead of the upstream default.
+CMD ["/usr/local/bin/docker_entrypoint.sh"]

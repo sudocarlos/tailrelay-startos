@@ -24,10 +24,14 @@ endif
 # Generate the combined Dockerfile from the upstream Dockerfile + StartOS layer.
 # The upstream Dockerfile starts with '# syntax=docker/dockerfile:1' which must
 # remain on line 1 for BuildKit. We prepend our notice as inline comments after it.
-Dockerfile: $(TAILRELAY_DIR)/Dockerfile Dockerfile.startos $(TAILRELAY_HEAD)
+#
+# The build context root is the repo root (not tailrelay/), so every COPY that
+# references a local source path in the upstream Dockerfile must be prefixed with
+# $(TAILRELAY_DIR)/. Scripts/prefix-copy.py handles this rewrite.
+Dockerfile: $(TAILRELAY_DIR)/Dockerfile Dockerfile.startos scripts/prefix-copy.py $(TAILRELAY_HEAD)
 	@head -1 $(TAILRELAY_DIR)/Dockerfile > Dockerfile
 	@echo "# Generated — do not edit directly. Edit Dockerfile.startos and run: make Dockerfile" >> Dockerfile
-	@tail -n +2 $(TAILRELAY_DIR)/Dockerfile >> Dockerfile
+	@tail -n +2 $(TAILRELAY_DIR)/Dockerfile | python3 scripts/prefix-copy.py $(TAILRELAY_DIR) >> Dockerfile
 	@cat Dockerfile.startos >> Dockerfile
 
 include s9pk.mk
