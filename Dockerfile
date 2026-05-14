@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 # Generated — do not edit directly. Edit Dockerfile.startos and run: make Dockerfile
 # check=skip=SecretsUsedInArgOrEnv
-ARG TAILSCALE_VERSION=v1.96.4
-ARG CADDY_VERSION=2.11.2
+ARG TAILSCALE_VERSION=v1.96.5
+ARG CADDY_VERSION=2.11.3
 ARG GO_VERSION=1.26.1
 ARG NODE_VERSION=24
 ARG ALPINE_VERSION=3.22
