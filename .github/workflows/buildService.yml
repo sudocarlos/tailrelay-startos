@@ -16,14 +16,62 @@ jobs:
       matrix:
         arch: [x86, arm]
     steps:
-      - name: Prepare StartOS SDK
-        uses: Start9Labs/sdk@v1
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-      - name: Checkout services repository
-        uses: actions/checkout@v4
+      - name: Install SDK dependencies
+        run: |
+          sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list
+          sudo apt-get update
+          sudo apt-get install -y git build-essential openssl libssl-dev libc6-dev clang libclang-dev ca-certificates curl
+          sudo snap install yq
+          curl -fsSL https://deno.land/install.sh | sh
+          echo "$HOME/.deno/bin" >> $GITHUB_PATH
+          cargo install --force toml-cli web-static-pack-packer
+          cargo install --git=https://github.com/Start9Labs/md-packer.git --branch=main
+        shell: bash
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Checkout start-os (0.3.x SDK)
+        uses: actions/checkout@v4
+        with:
+          repository: Start9Labs/start-os
+          ref: v0.3.5.1
+          submodules: recursive
+
+      - name: Cache start-sdk
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-start-sdk-${{ hashFiles('**/install-sdk.sh') }}
+
+      - name: Install start-sdk
+        run: |
+          if [ -z "$(command -v start-sdk)" ]; then
+            export RUSTFLAGS=""
+            export OS_ARCH=$(uname -m)
+            make sdk
+            echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          fi
+        shell: bash
+
+      - name: Checkout services repository
+        uses: actions/checkout@v4
 
       - name: Build the service package (${{ matrix.arch }})
         id: build
