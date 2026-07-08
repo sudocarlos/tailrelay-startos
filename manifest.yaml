@@ -1,8 +1,8 @@
 id: tailrelay
 title: Tailrelay
-version: 0.9.2
+version: 0.9.4
 release-notes: |
-  Upstream releases v0.9.0 through v0.9.2: replaced Caddy/socat relay stack with tailscale serve; added search box to Web UI dashboard; updated Tailscale (v1.98.4), Node (v24.17.0), and Go (v1.26.4). Switched license to BSD 3-Clause.
+  Upstream releases v0.9.3 and v0.9.4: added Tailscale Funnel support; updated Vite to v8 with compatible Svelte/Tailwind plugins; added Docusaurus site with Redoc API reference; purged dead metrics UI; bumped Tailscale to v1.98.8 and Node to v24.18.0; published tagged releases to GHCR alongside Docker Hub; various CI and dependency fixes.
 license: mit
 wrapper-repo: "https://github.com/sudocarlos/tailrelay-startos"
 upstream-repo: "https://github.com/sudocarlos/tailrelay"
