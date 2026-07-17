@@ -1,8 +1,8 @@
 id: tailrelay
 title: Tailrelay
-version: 0.9.4
+version: 0.9.5
 release-notes: |
-  Upstream releases v0.9.3 and v0.9.4: added Tailscale Funnel support; updated Vite to v8 with compatible Svelte/Tailwind plugins; added Docusaurus site with Redoc API reference; purged dead metrics UI; bumped Tailscale to v1.98.8 and Node to v24.18.0; published tagged releases to GHCR alongside Docker Hub; various CI and dependency fixes.
+  Upstream release v0.9.5: added a Networking section to the Tailscale page for managing exit nodes, subnet routes, accepted routes, and Tailscale SSH directly from the dashboard; overhauled relay cards with an iOS-style toggle switch and overflow action menu replacing separate Play/Pause/Edit/Delete controls; added a CopyButton component for one-click address copying; bumped Vite to v8.1.4.
 license: mit
 wrapper-repo: "https://github.com/sudocarlos/tailrelay-startos"
 upstream-repo: "https://github.com/sudocarlos/tailrelay"
