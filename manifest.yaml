@@ -1,8 +1,8 @@
 id: tailrelay
 title: Tailrelay
-version: 0.9.6
+version: 0.10.0
 release-notes: |
-  Upstream release v0.9.6: bumped Tailscale to v1.98.9 and Go to 1.26.5; updated Vite to 8.1.5; refactored CopyButton usage in Tailscale machines menu; added native arch and podman support in dev builds.
+  Upstream release v0.10.0: added a Control Server field on the Tailscale page for connecting to a self-hosted Headscale instance, plus support for `hskey-` auth keys; fixed hostname handling, relay links, and Funnel/HTTP-scheme detection when authenticated against a custom control server; auto-detect the container engine (docker/podman) in dev builds.
 license: mit
 wrapper-repo: "https://github.com/sudocarlos/tailrelay-startos"
 upstream-repo: "https://github.com/sudocarlos/tailrelay"
