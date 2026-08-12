@@ -9,6 +9,12 @@ Registries queried (in priority order for deduplication):
   1. start9    - https://registry.start9.com/package/v0/index
   2. beta      - https://beta-registry.start9.com/package/v0/index
   3. community - https://community-registry.start9.com/package/v0/index
+
+Manual overrides:
+  Hand-curated entries in assets/manual_targets.json are merged over the
+  generated output.  Each override is keyed by (app_id, host, port); it may
+  patch any subset of fields on an existing generated target or introduce a
+  wholly new one.
 """
 
 import json
@@ -26,6 +32,9 @@ REGISTRIES = [
 # Output path relative to this script's directory (i.e. <repo>/assets/startos_targets.json)
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_FILE = os.path.join(SCRIPT_DIR, "..", "assets", "startos_targets.json")
+# Hand-curated entries that are merged over the generated output (see module
+# docstring).  Optional: the file may be absent, in which case nothing is merged.
+MANUAL_FILE = os.path.join(SCRIPT_DIR, "..", "assets", "manual_targets.json")
 
 
 def fetch_index(registry_name, url):
@@ -70,7 +79,7 @@ def fetch_index(registry_name, url):
 
 
 def _make_target(
-    app_id, host, title, iface_data, iface_id, internal_port, ssl, registry_name
+    app_id, host, title, iface_data, iface_id, internal_port, ssl, registry_name, icon
 ):
     """Build a single target dict from resolved interface and port info.
 
@@ -103,10 +112,11 @@ def _make_target(
         "protocol": target_protocol,
         "target_name": f"{title} - {iface_name} (port {internal_port})",
         "registry": registry_name,
+        "icon": icon,
     }
 
 
-def targets_from_manifest(manifest, registry_name):
+def targets_from_manifest(manifest, registry_name, icon):
     """
     Parse a StartOS manifest dict and return a list of Tailrelay target dicts.
 
@@ -152,6 +162,7 @@ def targets_from_manifest(manifest, registry_name):
                     internal_port,
                     ssl,
                     registry_name,
+                    icon,
                 )
             )
 
@@ -172,10 +183,43 @@ def targets_from_manifest(manifest, registry_name):
                         internal_port,
                         False,
                         registry_name,
+                        icon,
                     )
                 )
 
     return targets
+
+
+def apply_manual_overrides(targets):
+    """Merge hand-curated overrides from assets/manual_targets.json.
+
+    Each manual entry is keyed by (app_id, host, port).  When the key matches a
+    generated target, the manual fields are applied on top of it (so a manual
+    entry may override as little as one field, e.g. ``protocol``); when there
+    is no match the manual entry is appended as a brand new target.
+
+    Returns the (possibly extended) target list plus counts of overrides and
+    additions applied.  A missing manual file is a no-op.
+    """
+    if not os.path.exists(MANUAL_FILE):
+        return targets, 0, 0
+
+    with open(MANUAL_FILE) as f:
+        manual = json.load(f)
+
+    index = {(t["app_id"], t["host"], t["port"]): t for t in targets}
+    overrides = 0
+    additions = 0
+    for entry in manual:
+        key = (entry["app_id"], entry["host"], entry["port"])
+        if key in index:
+            index[key].update(entry)
+            overrides += 1
+        else:
+            targets.append(entry)
+            index[key] = entry
+            additions += 1
+    return targets, overrides, additions
 
 
 def main():
@@ -186,6 +230,7 @@ def main():
     for registry_name, url in REGISTRIES:
         print(f"Fetching {registry_name} registry...", file=sys.stderr)
         index = fetch_index(registry_name, url)
+        registry_base = url.rsplit("/package/v0/index", 1)[0]
         new_count = 0
 
         for entry in index:
@@ -197,6 +242,8 @@ def main():
             if not app_id:
                 continue
 
+            icon = f"{registry_base}/package/v0/icon/{app_id}"
+
             if app_id in seen_ids:
                 print(
                     f"  Skipping {app_id} (already seen from higher-priority registry)",
@@ -205,12 +252,20 @@ def main():
                 continue
 
             seen_ids.add(app_id)
-            targets = targets_from_manifest(manifest, registry_name)
+            targets = targets_from_manifest(manifest, registry_name, icon)
             all_targets.extend(targets)
             new_count += 1
             print(f"  {app_id}: {len(targets)} target(s)", file=sys.stderr)
 
         print(f"  -> {new_count} new package(s) from {registry_name}", file=sys.stderr)
+
+    # Merge hand-curated overrides last so they win over generated data.
+    all_targets, overrides, additions = apply_manual_overrides(all_targets)
+    if overrides or additions:
+        print(
+            f"Merged manual overrides: {overrides} patched, {additions} added",
+            file=sys.stderr,
+        )
 
     # Sort for stable output: by app_id, then port
     all_targets.sort(key=lambda t: (t["app_id"], t["port"]))
@@ -225,6 +280,7 @@ def main():
         f"Saved to {output_path}.",
         file=sys.stderr,
     )
+
 
 
 if __name__ == "__main__":

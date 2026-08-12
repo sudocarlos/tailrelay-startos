@@ -1,0 +1,26 @@
+[
+  {
+    "app_id": "StartOS",
+    "host": " host.containers.internal",
+    "port": 80,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "StartOS - Web Interface (port 80)",
+    "registry": "start9"
+  },
+  {
+    "app_id": "StartOS",
+    "host": "albyhub.embassy",
+    "port": 22,
+    "type": "relay",
+    "protocol": "tcp",
+    "target_name": "StartOS - SSH (port 22)",
+    "registry": "start9"
+  },
+  {
+    "app_id": "c-lightning",
+    "host": "c-lightning.embassy",
+    "port": 3010,
+    "protocol": "https"
+  }
+]

@@ -1,20 +1,20 @@
 [
   {
     "app_id": "StartOS",
-    "host": " host.containers.internal",
-    "port": 80,
-    "type": "proxy",
-    "protocol": "http",
-    "target_name": "StartOS - Web Interface (port 80)",
-    "registry": "start9"
-  },
-  {
-    "app_id": "StartOS",
     "host": "albyhub.embassy",
     "port": 22,
     "type": "relay",
     "protocol": "tcp",
     "target_name": "StartOS - SSH (port 22)",
+    "registry": "start9"
+  },
+  {
+    "app_id": "StartOS",
+    "host": " host.containers.internal",
+    "port": 80,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "StartOS - Web Interface (port 80)",
     "registry": "start9"
   },
   {
@@ -24,7 +24,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Alby Hub - User Interface (port 8080)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/albyhub"
   },
   {
     "app_id": "balanceofsatoshis",
@@ -33,7 +34,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Balance of Satoshis - Network Interface (port 3000)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/balanceofsatoshis"
   },
   {
     "app_id": "bisq",
@@ -42,7 +44,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Bisq - User Interface (port 3000)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/bisq"
   },
   {
     "app_id": "bisq",
@@ -51,7 +54,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Bisq - User Interface (port 3389)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/bisq"
   },
   {
     "app_id": "bitcoind",
@@ -60,7 +64,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Bitcoin Core - RPC Interface (port 8332)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/bitcoind"
   },
   {
     "app_id": "bitcoind",
@@ -69,7 +74,8 @@
     "type": "relay",
     "protocol": "tcp",
     "target_name": "Bitcoin Core - Peer Interface (port 8333)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/bitcoind"
   },
   {
     "app_id": "bitcoind",
@@ -78,7 +84,8 @@
     "type": "relay",
     "protocol": "tcp",
     "target_name": "Bitcoin Core - ZeroMQ Interface (port 28332)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/bitcoind"
   },
   {
     "app_id": "bitcoind",
@@ -87,7 +94,8 @@
     "type": "relay",
     "protocol": "tcp",
     "target_name": "Bitcoin Core - ZeroMQ Interface (port 28333)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/bitcoind"
   },
   {
     "app_id": "bitcoind-testnet",
@@ -96,7 +104,8 @@
     "type": "relay",
     "protocol": "tcp",
     "target_name": "Bitcoin Core (testnet4) - Peer Interface (port 8333)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/bitcoind-testnet"
   },
   {
     "app_id": "bitcoind-testnet",
@@ -105,7 +114,8 @@
     "type": "relay",
     "protocol": "tcp",
     "target_name": "Bitcoin Core (testnet4) - ZeroMQ Interface (port 28332)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/bitcoind-testnet"
   },
   {
     "app_id": "bitcoind-testnet",
@@ -114,7 +124,8 @@
     "type": "relay",
     "protocol": "tcp",
     "target_name": "Bitcoin Core (testnet4) - ZeroMQ Interface (port 28333)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/bitcoind-testnet"
   },
   {
     "app_id": "bitcoind-testnet",
@@ -123,7 +134,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Bitcoin Core (testnet4) - RPC Interface (port 48332)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/bitcoind-testnet"
   },
   {
     "app_id": "btcpayserver",
@@ -132,7 +144,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "BTCPay Server - Web Interface (port 80)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/btcpayserver"
   },
   {
     "app_id": "burn-after-reading",
@@ -141,7 +154,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Burn After Reading - Web Interface (port 80)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/burn-after-reading"
   },
   {
     "app_id": "c-lightning",
@@ -150,7 +164,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Core Lightning - gRPC (port 2106)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/c-lightning"
   },
   {
     "app_id": "c-lightning",
@@ -159,7 +174,8 @@
     "type": "proxy",
     "protocol": "https",
     "target_name": "Core Lightning - CLNRest (port 3010)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/c-lightning"
   },
   {
     "app_id": "c-lightning",
@@ -168,7 +184,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Core Lightning - Web User Interface (port 4500)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/c-lightning"
   },
   {
     "app_id": "c-lightning",
@@ -177,7 +194,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Core Lightning - Clams Websocket (port 7272)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/c-lightning"
   },
   {
     "app_id": "c-lightning",
@@ -186,7 +204,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Core Lightning - RPC Interface (port 8080)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/c-lightning"
   },
   {
     "app_id": "c-lightning",
@@ -195,7 +214,8 @@
     "type": "relay",
     "protocol": "tcp",
     "target_name": "Core Lightning - Peer Interface (port 9735)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/c-lightning"
   },
   {
     "app_id": "c-lightning",
@@ -204,7 +224,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Core Lightning - TEOS Watchtower API (port 9814)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/c-lightning"
   },
   {
     "app_id": "canary",
@@ -213,7 +234,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Canary - Web Interface (port 3001)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/canary"
   },
   {
     "app_id": "clams-remote",
@@ -222,7 +244,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Remote - Clams Remote (port 80)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/clams-remote"
   },
   {
     "app_id": "cryptpad",
@@ -231,7 +254,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "CryptPad - Web UI (port 3000)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/cryptpad"
   },
   {
     "app_id": "cryptpad",
@@ -240,7 +264,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "CryptPad - Sandbox UI (port 3000)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/cryptpad"
   },
   {
     "app_id": "cups",
@@ -249,7 +274,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Cups Messenger - Web Interface (port 80)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/cups"
   },
   {
     "app_id": "cups",
@@ -258,7 +284,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Cups Messenger - Web Interface (port 59001)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/cups"
   },
   {
     "app_id": "datum",
@@ -267,7 +294,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Datum Gateway - Web UI (port 7152)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/datum"
   },
   {
     "app_id": "datum",
@@ -276,7 +304,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Datum Gateway - Mining Interface (port 23335)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/datum"
   },
   {
     "app_id": "deepsea-dashboard",
@@ -285,7 +314,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "DeepSea Dashboard - User Interface (port 8000)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/deepsea-dashboard"
   },
   {
     "app_id": "dojo",
@@ -294,7 +324,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Dojo - Dojo Web UI (port 9000)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/dojo"
   },
   {
     "app_id": "electrs",
@@ -303,7 +334,8 @@
     "type": "relay",
     "protocol": "tcp",
     "target_name": "electrs - Electrum Interface (port 50001)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/electrs"
   },
   {
     "app_id": "embassy-pages",
@@ -312,7 +344,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Start9 Pages - Web UI (port 80)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/embassy-pages"
   },
   {
     "app_id": "epic-node",
@@ -321,7 +354,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "EPIC Node Server - EPIC Node Server (port 3413)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/epic-node"
   },
   {
     "app_id": "epic-node",
@@ -330,7 +364,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "EPIC Node Server - EPIC Node Server (port 3414)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/epic-node"
   },
   {
     "app_id": "epic-node",
@@ -339,7 +374,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "EPIC Node Server - EPIC Node Server (port 3415)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/epic-node"
   },
   {
     "app_id": "epic-node",
@@ -348,7 +384,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "EPIC Node Server - EPIC Node Server (port 3416)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/epic-node"
   },
   {
     "app_id": "fedimintd",
@@ -357,7 +394,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Fedimint - Guardian Interface (port 8175)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/fedimintd"
   },
   {
     "app_id": "filebrowser",
@@ -366,7 +404,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "File Browser - Web UI (port 8080)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/filebrowser"
   },
   {
     "app_id": "free-gpt",
@@ -375,7 +414,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "FreeGPT-2 - User Interface (port 8080)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/free-gpt"
   },
   {
     "app_id": "fulcrum",
@@ -384,7 +424,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Fulcrum - Fulcrum Interface (port 50001)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/fulcrum"
   },
   {
     "app_id": "ghost",
@@ -393,7 +434,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Ghost - Network Interface (port 2368)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/ghost"
   },
   {
     "app_id": "gitea",
@@ -402,7 +444,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Gitea - Web UI / Git HTTPS/SSH (port 3000)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/gitea"
   },
   {
     "app_id": "helipad",
@@ -411,7 +454,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Helipad - Helipad Web Interface (port 2112)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/helipad"
   },
   {
     "app_id": "ipfs",
@@ -420,7 +464,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "IPFS - API / Web UI (port 5001)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/ipfs"
   },
   {
     "app_id": "ipfs",
@@ -429,7 +474,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "IPFS - IPFS Gateway (port 8080)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/ipfs"
   },
   {
     "app_id": "ipfs-podcasting",
@@ -438,7 +484,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "IPFS Podcasting - IPFS Network (port 4001)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/ipfs-podcasting"
   },
   {
     "app_id": "ipfs-podcasting",
@@ -447,7 +494,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "IPFS Podcasting - IPFS UI (port 5001)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/ipfs-podcasting"
   },
   {
     "app_id": "jam",
@@ -456,7 +504,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Jam - Jam Web UI (port 80)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/jam"
   },
   {
     "app_id": "jellyfin",
@@ -465,7 +514,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Jellyfin - User Interface (port 8096)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/jellyfin"
   },
   {
     "app_id": "lightning-terminal",
@@ -474,7 +524,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Lightning Terminal - Lightning Terminal Web Interface (port 8443)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/lightning-terminal"
   },
   {
     "app_id": "lnbits",
@@ -483,7 +534,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "LNBits - LNBits Web Interface (port 5000)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/lnbits"
   },
   {
     "app_id": "lnd",
@@ -492,7 +544,8 @@
     "type": "proxy",
     "protocol": "https",
     "target_name": "LND - Control Interface (port 8080)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/lnd"
   },
   {
     "app_id": "lnd",
@@ -501,7 +554,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "LND - Peer Interface (port 9735)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/lnd"
   },
   {
     "app_id": "lnd",
@@ -510,7 +564,8 @@
     "type": "relay",
     "protocol": "tcp",
     "target_name": "LND - Watchtower Interface (port 9911)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/lnd"
   },
   {
     "app_id": "lnd",
@@ -519,7 +574,8 @@
     "type": "proxy",
     "protocol": "https",
     "target_name": "LND - Control Interface (port 10009)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/lnd"
   },
   {
     "app_id": "lndg",
@@ -528,7 +584,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "LNDg - Browser Interface (port 8889)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/lndg"
   },
   {
     "app_id": "mastodon",
@@ -537,7 +594,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Mastodon - Main Interface (port 80)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/mastodon"
   },
   {
     "app_id": "mastodon",
@@ -546,7 +604,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Mastodon - Main Interface (port 3000)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/mastodon"
   },
   {
     "app_id": "mastodon",
@@ -555,7 +614,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Mastodon - Main Interface (port 4000)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/mastodon"
   },
   {
     "app_id": "mempool",
@@ -564,7 +624,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Mempool - Mempool Interface (port 8080)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/mempool"
   },
   {
     "app_id": "monerod",
@@ -573,7 +634,8 @@
     "type": "relay",
     "protocol": "tcp",
     "target_name": "Monero - Peer Interface (port 18080)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/monerod"
   },
   {
     "app_id": "monerod",
@@ -582,7 +644,8 @@
     "type": "relay",
     "protocol": "tcp",
     "target_name": "Monero - ZeroMQ Interface (port 18082)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/monerod"
   },
   {
     "app_id": "monerod",
@@ -591,7 +654,8 @@
     "type": "relay",
     "protocol": "tcp",
     "target_name": "Monero - ZeroMQ Pub-Sub Interface (port 18083)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/monerod"
   },
   {
     "app_id": "monerod",
@@ -600,7 +664,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Monero - RPC Interface (port 18089)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/monerod"
   },
   {
     "app_id": "monerod",
@@ -609,7 +674,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Monero - Wallet RPC Interface (port 28088)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/monerod"
   },
   {
     "app_id": "my-speed",
@@ -618,7 +684,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "MySpeed - User Interface (port 5216)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/my-speed"
   },
   {
     "app_id": "nextcloud",
@@ -627,7 +694,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Nextcloud - Nextcloud Web Interface (port 8080)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/nextcloud"
   },
   {
     "app_id": "nostr",
@@ -636,7 +704,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Nostr RS Relay - Websocket Interface (port 8080)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/nostr"
   },
   {
     "app_id": "nostrudel",
@@ -645,7 +714,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "noStrudel - User Interface (port 8080)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/nostrudel"
   },
   {
     "app_id": "photoview",
@@ -654,7 +724,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Photoview - Web Interface (port 80)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/photoview"
   },
   {
     "app_id": "public-pool",
@@ -663,7 +734,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Public Pool - User Interface (port 80)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/public-pool"
   },
   {
     "app_id": "ride-the-lightning",
@@ -672,7 +744,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Ride the Lightning - Browser Interface (port 80)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/ride-the-lightning"
   },
   {
     "app_id": "robosats",
@@ -681,7 +754,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "RoboSats - User Interface (port 12596)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/robosats"
   },
   {
     "app_id": "searxng",
@@ -690,7 +764,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "SearXNG - SearXNG Web Interface (port 8080)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/searxng"
   },
   {
     "app_id": "simplex",
@@ -699,7 +774,8 @@
     "type": "relay",
     "protocol": "tcp",
     "target_name": "SimpleX Server - SimpleX XFTP Interface (port 443)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/simplex"
   },
   {
     "app_id": "simplex",
@@ -708,7 +784,8 @@
     "type": "relay",
     "protocol": "tcp",
     "target_name": "SimpleX Server - SimpleX SMP Interface (port 5223)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/simplex"
   },
   {
     "app_id": "sparrow-webtop",
@@ -717,7 +794,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Sparrow - User Interface (port 3000)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/sparrow-webtop"
   },
   {
     "app_id": "specter",
@@ -726,7 +804,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Specter - Specter Web Interface (port 25441)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/specter"
   },
   {
     "app_id": "sphinx-relay",
@@ -735,7 +814,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Sphinx Chat - Network Interface (port 3300)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/sphinx-relay"
   },
   {
     "app_id": "synapse",
@@ -744,7 +824,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Synapse - Homeserver Address (port 80)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/synapse"
   },
   {
     "app_id": "synapse",
@@ -753,7 +834,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Synapse - Homeserver Address (port 443)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/synapse"
   },
   {
     "app_id": "synapse",
@@ -762,7 +844,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Synapse - Admin Portal (port 8080)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/synapse"
   },
   {
     "app_id": "synapse",
@@ -771,7 +854,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Synapse - Homeserver Address (port 8448)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/synapse"
   },
   {
     "app_id": "syncthing",
@@ -780,7 +864,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Syncthing - Syncthing UI (port 8384)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/syncthing"
   },
   {
     "app_id": "syncthing",
@@ -789,7 +874,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Syncthing - Listening Port (port 22000)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/syncthing"
   },
   {
     "app_id": "tailrelay",
@@ -798,7 +884,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Tailrelay - User Interface (port 8021)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/tailrelay"
   },
   {
     "app_id": "thunderhub",
@@ -807,7 +894,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "ThunderHub - Browser Interface (port 3000)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/thunderhub"
   },
   {
     "app_id": "umbrel-bitcoin-ui",
@@ -816,7 +904,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Umbrel Bitcoin UI - User Interface (port 3000)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/umbrel-bitcoin-ui"
   },
   {
     "app_id": "uptime-kuma",
@@ -825,7 +914,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Uptime Kuma - User Interface (port 3001)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/uptime-kuma"
   },
   {
     "app_id": "utxoracle",
@@ -834,7 +924,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "UTXOracle - Main Interface (port 80)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/utxoracle"
   },
   {
     "app_id": "vaultwarden",
@@ -843,7 +934,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Vaultwarden - Web Interface/Bitwarden Protocol (port 8080)",
-    "registry": "start9"
+    "registry": "start9",
+    "icon": "https://registry.start9.com/package/v0/icon/vaultwarden"
   },
   {
     "app_id": "wasabi-webtop",
@@ -852,7 +944,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Wasabi - User Interface (port 3000)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/wasabi-webtop"
   },
   {
     "app_id": "wasabi-webtop",
@@ -861,7 +954,8 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Wasabi - RPC Interface (port 37128)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/wasabi-webtop"
   },
   {
     "app_id": "webtop",
@@ -870,6 +964,7 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Webtop - User Interface (port 3000)",
-    "registry": "community"
+    "registry": "community",
+    "icon": "https://community-registry.start9.com/package/v0/icon/webtop"
   }
 ]
