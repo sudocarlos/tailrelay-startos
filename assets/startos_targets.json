@@ -1,5 +1,23 @@
 [
   {
+    "app_id": "StartOS",
+    "host": " host.containers.internal",
+    "port": 80,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "StartOS - Web Interface (port 80)",
+    "registry": "start9"
+  },
+  {
+    "app_id": "StartOS",
+    "host": "albyhub.embassy",
+    "port": 22,
+    "type": "relay",
+    "protocol": "tcp",
+    "target_name": "StartOS - SSH (port 22)",
+    "registry": "start9"
+  },
+  {
     "app_id": "albyhub",
     "host": "albyhub.embassy",
     "port": 8080,
@@ -771,6 +789,15 @@
     "type": "proxy",
     "protocol": "http",
     "target_name": "Syncthing - Listening Port (port 22000)",
+    "registry": "community"
+  },
+  {
+    "app_id": "tailrelay",
+    "host": "tailrelay.embassy",
+    "port": 8021,
+    "type": "proxy",
+    "protocol": "http",
+    "target_name": "Tailrelay - User Interface (port 8021)",
     "registry": "community"
   },
   {

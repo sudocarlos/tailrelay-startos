@@ -3,12 +3,12 @@
 Fetch all Start9 marketplace packages from the official registry APIs
 and generate assets/startos_targets.json for use by Tailrelay.
 
-No external dependencies required — uses only the Python standard library.
+No external dependencies required - uses only the Python standard library.
 
 Registries queried (in priority order for deduplication):
-  1. start9    — https://registry.start9.com/package/v0/index
-  2. beta      — https://beta-registry.start9.com/package/v0/index
-  3. community — https://community-registry.start9.com/package/v0/index
+  1. start9    - https://registry.start9.com/package/v0/index
+  2. beta      - https://beta-registry.start9.com/package/v0/index
+  3. community - https://community-registry.start9.com/package/v0/index
 """
 
 import json
@@ -62,7 +62,7 @@ def fetch_index(registry_name, url):
             break
         results.extend(data)
         if len(data) < per_page:
-            # Last page — no more results
+            # Last page - no more results
             break
         page += 1
 
@@ -111,8 +111,8 @@ def targets_from_manifest(manifest, registry_name):
     Parse a StartOS manifest dict and return a list of Tailrelay target dicts.
 
     Port resolution strategy (in order of preference):
-      1. lan-config  — explicit internal port + ssl flag; most accurate.
-      2. tor-config  — port-mapping format is {"external": "internal"}; used when
+      1. lan-config  - explicit internal port + ssl flag; most accurate.
+      2. tor-config  - port-mapping format is {"external": "internal"}; used when
                        lan-config is absent or null (covers TCP-only services such as
                        electrs, lnd, mastodon, dojo, etc.).
 
