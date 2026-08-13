@@ -112,7 +112,7 @@ def _make_target(
         "protocol": target_protocol,
         "target_name": f"{title} - {iface_name} (port {internal_port})",
         "registry": registry_name,
-        "icon": icon,
+        "icon_url": icon,
     }
 
 
