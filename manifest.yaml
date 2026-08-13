@@ -1,21 +1,15 @@
 id: tailrelay
 title: Tailrelay
-version: 0.10.1
+version: 0.11.0
 release-notes: |
-  ### What's New
+  ### Added
 
-  - **StartOS relay targets** - the bundled target catalog now includes StartOS Web Interface (port 80), StartOS SSH (port 22), and Tailrelay User Interface (port 8021) for quicker relay setup.
-  - **Tailscale v1.102.2** - updated from v1.98.9.
+  - **Per-relay icon** (#103) - relays (TCP, HTTPS, funnel) now accept an optional `icon_url` rendered on the relay card in place of the default glyph, with status conveyed by a small corner dot so the icon stays readable. Accepts an `http`/`https` URL or a capped (256 KiB) `data:image/*` URI; other schemes (e.g. `javascript:`) are rejected with `400`. Persisted on `ServeRelay` (`serve_relays.json` / covered by backups) and optional on `targets.json` presets.
+  - **Favicon auto-suggest** (#103) - the Add/Edit modal now suggests the target's `favicon.ico` on blur of the target field for web transports (HTTPS relay and funnel-HTTPS), plus explicit "Favicon" and "Clear" buttons. Favicon requests go straight from the browser with `referrerpolicy="no-referrer"` so the MagicDNS URL isn't leaked to the target host; no third-party favicon services are used.
 
-  ### Fixed
+  ### Changed
 
-  - **Exit-node selection** - peer exit nodes are no longer selectable under userspace networking, where they cannot work; the dashboard now offers only "None" and "Run as exit node".
-  - **Safari address menu** - the address dropdown now dismisses correctly in macOS Safari.
-
-  ### More
-
-  - **Node.js 24.19.0** - updated from 24.18.0.
-  - **Security overrides** - `js-yaml` and `brace-expansion` patched to resolve dependency vulnerabilities.
+  - **OpenAPI** - documented `icon_url` on serve relays and preset targets in `docs/openapi.yaml` (#103).
 license: mit
 wrapper-repo: "https://github.com/sudocarlos/tailrelay-startos"
 upstream-repo: "https://github.com/sudocarlos/tailrelay"
