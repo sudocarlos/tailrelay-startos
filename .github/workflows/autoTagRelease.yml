@@ -60,6 +60,18 @@ jobs:
             exit 0
           fi
 
+          # Refuse to tag a revision older than the newest version already
+          # released: merging an out-of-order PR after a newer release would
+          # otherwise re-cut the package from stale code.
+          NEWEST=$(git ls-remote --exit-code --tags origin 'refs/tags/v*' \
+            | awk '{print $2}' | sed 's#refs/tags/v####' \
+            | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' \
+            | sort -V | tail -1)
+          if [[ -n "$NEWEST" && ! $(printf '%s\n%s\n' "$VERSION" "$NEWEST" | sort -V | tail -1) == "$VERSION" ]]; then
+            echo "::notice::Latest tag is v${NEWEST} which is >= ${TAG}; refusing to re-tag an older revision. Nothing to do."
+            exit 0
+          fi
+
           git config user.name  'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git tag -a "$TAG" -m "Tailrelay ${TAG}"
