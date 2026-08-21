@@ -1,15 +1,11 @@
 id: tailrelay
 title: Tailrelay
-version: 0.11.0
-release-notes: |
-  ### Added
-
-  - **Per-relay icon** (#103) - relays (TCP, HTTPS, funnel) now accept an optional `icon_url` rendered on the relay card in place of the default glyph, with status conveyed by a small corner dot so the icon stays readable. Accepts an `http`/`https` URL or a capped (256 KiB) `data:image/*` URI; other schemes (e.g. `javascript:`) are rejected with `400`. Persisted on `ServeRelay` (`serve_relays.json` / covered by backups) and optional on `targets.json` presets.
-  - **Favicon auto-suggest** (#103) - the Add/Edit modal now suggests the target's `favicon.ico` on blur of the target field for web transports (HTTPS relay and funnel-HTTPS), plus explicit "Favicon" and "Clear" buttons. Favicon requests go straight from the browser with `referrerpolicy="no-referrer"` so the MagicDNS URL isn't leaked to the target host; no third-party favicon services are used.
-
+version: 0.11.2
+release-notes: |-
   ### Changed
-
-  - **OpenAPI** - documented `icon_url` on serve relays and preset targets in `docs/openapi.yaml` (#103).
+  - **Frontend tooling** (#109) — bumped `vite` in `webui/frontend/package.json` from `8.2.1` to `8.2.2`
+  - **Go** (#108) — bumped from `1.26.6` to `1.27.0` in Dockerfile
+  - **Tailscale** (#110) — bumped from `v1.102.2` to `v1.102.3` in Dockerfile
 license: mit
 wrapper-repo: "https://github.com/sudocarlos/tailrelay-startos"
 upstream-repo: "https://github.com/sudocarlos/tailrelay"

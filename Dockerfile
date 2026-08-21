@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 # Generated — do not edit directly. Edit Dockerfile.startos and run: make Dockerfile
 # check=skip=SecretsUsedInArgOrEnv
-ARG TAILSCALE_VERSION=v1.102.2
-ARG GO_VERSION=1.26.5
+ARG TAILSCALE_VERSION=v1.102.3
+ARG GO_VERSION=1.27.0
 ARG NODE_VERSION=24.19.0
 ARG WEBUI_SOURCE=webui-builder
 
