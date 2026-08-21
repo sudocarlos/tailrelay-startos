@@ -1,0 +1,268 @@
+name: Upstream Update Check
+
+# Detects new sudocarlos/tailrelay releases and opens a tracking issue plus a
+# ready-to-merge PR that bumps the submodule, regenerates the Dockerfile and
+# updates manifest.yaml (version + release-notes).
+#
+# Merging that PR triggers .github/workflows/autoTagRelease.yml, which pushes
+# the vX.Y.Z tag and therefore .github/workflows/releaseService.yml.
+#
+# Secrets:
+#   PAT (optional but recommended) - a fine-grained/classic PAT with `repo`
+#   scope. Required so that the PR opened here triggers buildService.yml and so
+#   that the tag pushed on merge triggers releaseService.yml. Events raised by
+#   the default GITHUB_TOKEN never start other workflows. Falls back to
+#   GITHUB_TOKEN, in which case builds/releases must be started manually.
+
+on:
+  schedule:
+    - cron: '30 6 * * *'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Upstream tag to target (e.g. v0.11.1). Defaults to the latest upstream release.'
+        required: false
+        type: string
+      force:
+        description: 'Recreate the branch/PR even if one already exists for this version.'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      UPSTREAM_REPO: sudocarlos/tailrelay
+      GH_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout wrapper repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
+
+      - name: Install yq
+        uses: ./.github/actions/install-yq
+
+      - name: Resolve upstream and current versions
+        id: versions
+        run: |
+          set -euo pipefail
+
+          if [[ -n "${{ inputs.version }}" ]]; then
+            UPSTREAM_TAG="${{ inputs.version }}"
+            gh api "repos/${UPSTREAM_REPO}/releases/tags/${UPSTREAM_TAG}" > /tmp/release.json
+          else
+            # /releases/latest already excludes drafts and prereleases
+            gh api "repos/${UPSTREAM_REPO}/releases/latest" > /tmp/release.json
+            UPSTREAM_TAG=$(jq -r '.tag_name' /tmp/release.json)
+          fi
+
+          UPSTREAM_VERSION="${UPSTREAM_TAG#v}"
+          CURRENT_VERSION=$(yq -oy '.version' manifest.yaml)
+
+          echo "Upstream release : ${UPSTREAM_TAG}"
+          echo "Packaged version : ${CURRENT_VERSION}"
+
+          if [[ ! "$UPSTREAM_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Unexpected upstream tag format: ${UPSTREAM_TAG}"
+            exit 1
+          fi
+
+          NEEDS_UPDATE=false
+          if [[ "$UPSTREAM_VERSION" != "$CURRENT_VERSION" ]]; then
+            NEWEST=$(printf '%s\n%s\n' "$UPSTREAM_VERSION" "$CURRENT_VERSION" | sort -V | tail -1)
+            if [[ "$NEWEST" == "$UPSTREAM_VERSION" ]]; then
+              NEEDS_UPDATE=true
+            else
+              echo "Packaged version is ahead of upstream; nothing to do."
+            fi
+          else
+            echo "Already up to date."
+          fi
+
+          {
+            echo "upstream_tag=${UPSTREAM_TAG}"
+            echo "upstream_version=${UPSTREAM_VERSION}"
+            echo "current_version=${CURRENT_VERSION}"
+            echo "needs_update=${NEEDS_UPDATE}"
+            echo "branch=chore/upstream-${UPSTREAM_TAG}"
+          } >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Extract upstream release notes
+        if: steps.versions.outputs.needs_update == 'true'
+        run: |
+          set -euo pipefail
+          # Normalise CRLF so yq emits a clean block scalar, drop the trailing
+          # "Full Changelog" footer GitHub appends and the upstream-only
+          # "### Docker" pull instructions, then trim blank lines at both ends.
+          jq -r '.body // ""' /tmp/release.json \
+            | tr -d '\r' \
+            | sed -e '/^\*\*Full Changelog\*\*/,$d' -e '/^### Docker[[:space:]]*$/,$d' \
+            | sed -e '/./,$!d' \
+            | sed -e :a -e '/^\s*$/{$d;N;ba' -e '}' \
+            > /tmp/release-notes.md
+
+          if [[ ! -s /tmp/release-notes.md ]]; then
+            echo "::error::Upstream release ${{ steps.versions.outputs.upstream_tag }} has an empty body; refusing to write empty release-notes."
+            exit 1
+          fi
+          echo "--- release notes ---"
+          cat /tmp/release-notes.md
+        shell: bash
+
+      - name: Create tracking issue
+        if: steps.versions.outputs.needs_update == 'true'
+        id: issue
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.versions.outputs.upstream_tag }}"
+          TITLE="chore: update Tailrelay from v${{ steps.versions.outputs.current_version }} to ${TAG}"
+
+          EXISTING=$(gh issue list --repo "${{ github.repository }}" --state all --limit 200 \
+            --json number,title --jq ".[] | select(.title == \"${TITLE}\") | .number" | head -1)
+
+          if [[ -n "$EXISTING" ]]; then
+            echo "Issue #${EXISTING} already exists."
+            echo "number=${EXISTING}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          {
+            echo "Upstream [\`${UPSTREAM_REPO}\`](https://github.com/${UPSTREAM_REPO}) published **${TAG}**."
+            echo
+            echo "| Field | Value |"
+            echo "|-------|-------|"
+            echo "| Packaged version | \`${{ steps.versions.outputs.current_version }}\` |"
+            echo "| Latest upstream | \`${{ steps.versions.outputs.upstream_version }}\` |"
+            echo "| Submodule | \`tailrelay\` |"
+            echo
+            echo "### Upstream release notes"
+            echo
+            cat /tmp/release-notes.md
+            echo
+            echo "### Links"
+            echo "- [Upstream release](https://github.com/${UPSTREAM_REPO}/releases/tag/${TAG})"
+            echo "- [Compare](https://github.com/${UPSTREAM_REPO}/compare/v${{ steps.versions.outputs.current_version }}...${TAG})"
+          } > /tmp/issue-body.md
+
+          NUMBER=$(gh issue create --repo "${{ github.repository }}" \
+            --title "$TITLE" \
+            --body-file /tmp/issue-body.md \
+            --assignee sudocarlos \
+            | sed 's#.*/##')
+          echo "Created issue #${NUMBER}"
+          echo "number=${NUMBER}" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Prepare update branch
+        if: steps.versions.outputs.needs_update == 'true'
+        id: branch
+        run: |
+          set -euo pipefail
+          BRANCH="${{ steps.versions.outputs.branch }}"
+
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            if [[ "${{ inputs.force }}" != "true" ]]; then
+              echo "Branch ${BRANCH} already exists; skipping. Re-run with force=true to recreate."
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            git push origin --delete "$BRANCH"
+          fi
+
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout -b "$BRANCH"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Bump submodule, Dockerfile and manifest
+        if: steps.versions.outputs.needs_update == 'true' && steps.branch.outputs.skip == 'false'
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.versions.outputs.upstream_tag }}"
+
+          git -C tailrelay fetch --tags --force origin
+          git -C tailrelay checkout --detach "refs/tags/${TAG}"
+
+          # Regenerate Dockerfile from the new upstream Dockerfile + Dockerfile.startos
+          make Dockerfile
+
+          VERSION="${{ steps.versions.outputs.upstream_version }}" \
+          NOTES="$(cat /tmp/release-notes.md)" \
+            yq -i '.version = strenv(VERSION) | .release-notes = strenv(NOTES)' manifest.yaml
+
+          git add tailrelay Dockerfile manifest.yaml
+          git status --short
+
+          if git diff --cached --quiet; then
+            echo "::error::No changes produced for ${TAG}."
+            exit 1
+          fi
+
+          git commit -m "chore(release): ${TAG}" \
+            -m "Bump tailrelay submodule to ${TAG}, regenerate Dockerfile and update manifest version and release notes."
+          git push origin HEAD
+        shell: bash
+
+      - name: Open pull request
+        if: steps.versions.outputs.needs_update == 'true' && steps.branch.outputs.skip == 'false'
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.versions.outputs.upstream_tag }}"
+
+          {
+            echo "Automated update to upstream **${TAG}**."
+            echo
+            echo "Closes #${{ steps.issue.outputs.number }}"
+            echo
+            echo "### Changes"
+            echo "- \`tailrelay\` submodule pinned to \`${TAG}\`"
+            echo "- \`Dockerfile\` regenerated from the new upstream Dockerfile + \`Dockerfile.startos\`"
+            echo "- \`manifest.yaml\`: \`version\` -> \`${{ steps.versions.outputs.upstream_version }}\`, \`release-notes\` synced from upstream"
+            echo
+            echo "### Upstream release notes"
+            echo
+            cat /tmp/release-notes.md
+            echo
+            echo "### Maintainer checklist"
+            echo "- [ ] \`Build Service\` passed for both \`x86\` and \`arm\`"
+            echo "- [ ] Release notes read well in the StartOS UI"
+            echo "- [ ] No StartOS-side changes needed (config spec, health checks, volumes, entrypoint)"
+            echo
+            echo "> Merging this PR pushes the \`${TAG}\` tag automatically, which runs \`Release Service\` to build, publish and create the GitHub release. Close without merging if you do not want that."
+            echo
+            echo "[Upstream release](https://github.com/${UPSTREAM_REPO}/releases/tag/${TAG}) · [Compare](https://github.com/${UPSTREAM_REPO}/compare/v${{ steps.versions.outputs.current_version }}...${TAG})"
+          } > /tmp/pr-body.md
+
+          gh label create upstream-update --color 1d76db \
+            --description "Automated upstream version bump" 2>/dev/null || true
+
+          gh pr create \
+            --repo "${{ github.repository }}" \
+            --base "${{ github.event.repository.default_branch }}" \
+            --head "${{ steps.versions.outputs.branch }}" \
+            --title "chore(release): ${TAG}" \
+            --body-file /tmp/pr-body.md \
+            --label upstream-update \
+            --assignee sudocarlos
+        shell: bash
+
+      - name: Warn when running without a PAT
+        if: steps.versions.outputs.needs_update == 'true' && steps.branch.outputs.skip == 'false'
+        env:
+          HAS_PAT: ${{ secrets.PAT != '' }}
+        run: |
+          if [[ "$HAS_PAT" != "true" ]]; then
+            echo "::warning::No PAT secret configured. The PR was opened with GITHUB_TOKEN, so Build Service will not run automatically - dispatch it manually before merging."
+          fi
+        shell: bash

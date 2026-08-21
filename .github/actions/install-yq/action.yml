@@ -1,0 +1,19 @@
+name: Install yq
+description: Download and install a pinned yq release binary onto the runner.
+
+inputs:
+  version:
+    description: 'yq release tag to install (e.g. v4.53.6).'
+    required: false
+    default: 'v4.53.6'
+
+runs:
+  using: composite
+  steps:
+    - name: Install yq ${{ inputs.version }}
+      run: |
+        sudo curl -fsSL -o /usr/local/bin/yq \
+          "https://github.com/mikefarah/yq/releases/download/${{ inputs.version }}/yq_linux_amd64"
+        sudo chmod +x /usr/local/bin/yq
+        yq --version
+      shell: bash

@@ -1,0 +1,80 @@
+name: Auto Tag Release
+
+# Pushes the vX.Y.Z tag when an upstream-update PR is merged, which in turn
+# triggers .github/workflows/releaseService.yml.
+#
+# Requires the PAT secret to actually trigger Release Service: tags pushed with
+# the default GITHUB_TOKEN do not start other workflows. Without a PAT the tag
+# is still created, but the release must be started manually.
+
+on:
+  pull_request:
+    types: [closed]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Ref to tag (defaults to the default branch).'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    # Only for merged PRs carrying the upstream-update label, or manual dispatch
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true &&
+       contains(github.event.pull_request.labels.*.name, 'upstream-update'))
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.event.repository.default_branch }}
+          fetch-depth: 0
+          token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
+
+      - name: Install yq
+        uses: ./.github/actions/install-yq
+
+      - name: Create and push tag
+        env:
+          HAS_PAT: ${{ secrets.PAT != '' }}
+        run: |
+          set -euo pipefail
+
+          VERSION=$(yq -oy '.version' manifest.yaml)
+          TAG="v${VERSION}"
+          echo "manifest version: ${VERSION}"
+
+          if git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null 2>&1; then
+            echo "::notice::Tag ${TAG} already exists; nothing to do."
+            exit 0
+          fi
+
+          # Refuse to tag a revision older than the newest version already
+          # released: merging an out-of-order PR after a newer release would
+          # otherwise re-cut the package from stale code.
+          NEWEST=$(git ls-remote --exit-code --tags origin 'refs/tags/v*' \
+            | awk '{print $2}' | sed 's#refs/tags/v####' \
+            | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' \
+            | sort -V | tail -1)
+          if [[ -n "$NEWEST" && ! $(printf '%s\n%s\n' "$VERSION" "$NEWEST" | sort -V | tail -1) == "$VERSION" ]]; then
+            echo "::notice::Latest tag is v${NEWEST} which is >= ${TAG}; refusing to re-tag an older revision. Nothing to do."
+            exit 0
+          fi
+
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git tag -a "$TAG" -m "Tailrelay ${TAG}"
+          git push origin "refs/tags/${TAG}"
+          echo "::notice::Pushed ${TAG}."
+
+          if [[ "$HAS_PAT" != "true" ]]; then
+            echo "::warning::Tag pushed with GITHUB_TOKEN, so Release Service will not start automatically. Re-push the tag locally or dispatch the release manually."
+          fi
+        shell: bash
