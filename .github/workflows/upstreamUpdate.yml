@@ -49,11 +49,7 @@ jobs:
           token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
 
       - name: Install yq
-        run: |
-          sudo curl -fsSL -o /usr/local/bin/yq \
-            https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
-          sudo chmod +x /usr/local/bin/yq
-        shell: bash
+        uses: ./.github/actions/install-yq
 
       - name: Resolve upstream and current versions
         id: versions

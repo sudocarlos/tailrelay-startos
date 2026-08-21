@@ -12,17 +12,16 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Checkout services repository
+        uses: actions/checkout@v4
+
       - name: Install Deno
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
 
       - name: Install yq
-        run: |
-          sudo curl -fsSL -o /usr/local/bin/yq \
-            https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
-          sudo chmod +x /usr/local/bin/yq
-        shell: bash
+        uses: ./.github/actions/install-yq
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -40,9 +39,6 @@ jobs:
           sudo ln -sf /usr/local/bin/startbox /usr/local/bin/start-cli
           start-sdk --version
         shell: bash
-
-      - name: Checkout services repository
-        uses: actions/checkout@v4
 
       - name: Build the service packages
         run: |
