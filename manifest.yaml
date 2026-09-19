@@ -1,11 +1,13 @@
 id: tailrelay
 title: Tailrelay
-version: 0.11.2
+version: 0.11.3
 release-notes: |-
   ### Changed
-  - **Frontend tooling** (#109) — bumped `vite` in `webui/frontend/package.json` from `8.2.1` to `8.2.2`
-  - **Go** (#108) — bumped from `1.26.6` to `1.27.0` in Dockerfile
-  - **Tailscale** (#110) — bumped from `v1.102.2` to `v1.102.3` in Dockerfile
+  - **Vite** (#132) — bumped from `8.2.2` to `8.3.0` in `webui/frontend/package.json`, bringing faster preload dependency handling, CSS style-tag minification, and support for subpath imports in dynamic import statements
+  - **Docs site** (#123) — migrated from Docusaurus to Material for MkDocs; the API reference now renders directly from `docs/openapi.yaml` via the OpenAPI Docs plugin at build time
+  - **Go** (#116) — bumped from `1.27.0` to `1.27.1` in Dockerfile, `go.mod`, and CI, taking in fixes to cgo, the compiler, the runtime, and the `net/http` and `os` packages, among others
+  - **Node.js** (#116, #125) — bumped from `24.20.0` to `24.21.0` in Dockerfile and CI, which updates root certificates to NSS 3.126 and bundled dependencies to OpenSSL 3.5.8 and Undici 7.29.1
+  - **CI version check** (#126, #127, #128, #129, #131) — auto-opens bump PRs for Go, Node, Tailscale, and Vite, embedding release notes and changelog links in each PR body
 license: mit
 wrapper-repo: "https://github.com/sudocarlos/tailrelay-startos"
 upstream-repo: "https://github.com/sudocarlos/tailrelay"
