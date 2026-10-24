@@ -20,10 +20,9 @@ This skill documents the exact step-by-step process for creating a new release f
    - Stage the changes to `manifest.yaml` (and any other release-related files like `CHANGELOG.md` if applicable).
    - Create a commit using the standard release message format: `chore(release): vX.Y.Z` (e.g., `chore(release): v0.5.0`).
 
-4. **Tag the Release**
-   - Create an annotated or lightweight git tag for the same version: `git tag vX.Y.Z` (e.g., `git tag v0.5.0`).
+4. **Ship the Release**
+   - Preferred: merge the upstream-update PR. On merge, `.github/workflows/releaseService.yml` triggers on `pull_request closed` and automatically tags `vX.Y.Z` from the manifest version.
+   - Manual alternative: create the tag and push both, `git push origin main "refs/tags/vX.Y.Z"` — a tag push triggers Release Service the same way. A stalled release can also be re-run via `workflow_dispatch` on Release Service with the tag as input.
 
-5. **Push and Trigger Actions**
-   - Push the commit to the main branch: `git push origin main`.
-   - Push the new tag to the upstream repository: `git push origin vX.Y.Z`.
-   - Ensure the `.github/workflows/releaseService.yml` action is triggered. This action automatically builds the `.s9pk` packages for `arm64` and `amd64`, generates checksums and a summary from the manifest `release-notes`, and publishes the GitHub release.
+5. **Verify Publication**
+   - The Release Service run builds the `.s9pk` packages for `arm64` and `amd64`, generates checksums and a summary from the manifest `release-notes`, and publishes the GitHub release. Check `gh run list --workflow releaseService.yml` and confirm the release appears with its assets.
