@@ -4,15 +4,15 @@ name: Upstream Update Check
 # ready-to-merge PR that bumps the submodule, regenerates the Dockerfile and
 # updates manifest.yaml (version + release-notes).
 #
-# Merging that PR triggers .github/workflows/autoTagRelease.yml, which pushes
-# the vX.Y.Z tag and therefore .github/workflows/releaseService.yml.
+# Merging that PR triggers .github/workflows/releaseService.yml directly (on
+# pull_request closed), which tags the release and builds/publishes the
+# packages. The merge is user-initiated, so no PAT is needed for it.
 #
 # Secrets:
-#   PAT (optional but recommended) - a fine-grained/classic PAT with `repo`
-#   scope. Required so that the PR opened here triggers buildService.yml and so
-#   that the tag pushed on merge triggers releaseService.yml. Events raised by
-#   the default GITHUB_TOKEN never start other workflows. Falls back to
-#   GITHUB_TOKEN, in which case builds/releases must be started manually.
+#   PAT (optional) - a fine-grained/classic PAT with `repo` scope. With it, the
+#   PR opened here automatically triggers buildService.yml. Without it, the
+#   PR's Build Service run waits in "action_required" until approved manually.
+#   Falls back to GITHUB_TOKEN either way.
 
 on:
   schedule:

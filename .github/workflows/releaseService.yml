@@ -1,19 +1,52 @@
 name: Release Service
 
+# Builds both platform packages from a release and publishes them.
+#
+# Triggers:
+# - pull_request (closed): an upstream-update PR was merged. The version is
+#   read from the merged manifest, the vX.Y.Z tag is created and pushed, and
+#   the packages are built and published. Hooking the merge event directly is
+#   what avoids needing a PAT: events raised by the default GITHUB_TOKEN (such
+#   as the tag push this workflow used to depend on) never start workflows.
+# - push (tags): a manually re-pushed tag (recovery path).
+# - workflow_dispatch: manual release; the optional tag input defaults to the
+#   manifest version on the default branch.
+#
+# Except on tag pushes, the out-of-order guard refuses to release a revision
+# older than the newest tag already published.
+
 on:
   push:
     tags:
       - 'v*.*'
       - 'v*.*.*'
+  pull_request:
+    types: [closed]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g. v0.12.1). Defaults to the manifest version on the default branch.'
+        required: false
+        type: string
+
+permissions:
+  contents: write
 
 jobs:
   ReleasePackage:
+    if: >-
+      github.event_name == 'push' ||
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true &&
+       contains(github.event.pull_request.labels.*.name, 'upstream-update'))
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout services repository
         uses: actions/checkout@v4
+        with:
+          # Tag push: the tagged revision. Dispatch: the given tag, else the
+          # default branch. PR merge: the default branch (the merge commit).
+          ref: ${{ github.event_name == 'push' && github.ref || inputs.tag || github.event.repository.default_branch }}
 
       - name: Install Deno
         uses: denoland/setup-deno@v2
@@ -40,21 +73,60 @@ jobs:
           start-sdk --version
         shell: bash
 
+      - name: Resolve and push release tag
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+
+          if [[ -n "$INPUT_TAG" ]]; then
+            TAG="$INPUT_TAG"
+          elif [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            TAG="$GITHUB_REF_NAME"
+          else
+            TAG="v$(yq -oy '.version' manifest.*)"
+          fi
+          VERSION="${TAG#v}"
+
+          # A tag push names an existing tag; the other paths create it here.
+          if [[ "$GITHUB_EVENT_NAME" != "push" ]] && \
+             ! git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null 2>&1; then
+            # Refuse to tag a revision older than the newest version already
+            # released: merging an out-of-order PR after a newer release would
+            # otherwise re-cut the package from stale code.
+            NEWEST=$(git ls-remote --tags origin 'refs/tags/v*' \
+              | awk '{print $2}' | sed 's#refs/tags/v####' \
+              | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' \
+              | sort -V | tail -1)
+            if [[ -n "$NEWEST" && ! $(printf '%s\n%s\n' "$VERSION" "$NEWEST" | sort -V | tail -1) == "$VERSION" ]]; then
+              echo "::error::Latest tag is v${NEWEST} which is >= v${VERSION}; refusing to release an older revision."
+              exit 1
+            fi
+            git config user.name  'github-actions[bot]'
+            git config user.email 'github-actions[bot]@users.noreply.github.com'
+            git tag -a "$TAG" -m "Tailrelay ${TAG}"
+            git push origin "refs/tags/${TAG}"
+            echo "::notice::Pushed ${TAG}."
+          fi
+
+          echo "tag_name=${TAG}" >> "$GITHUB_ENV"
+        shell: bash
+
       - name: Build the service packages
         run: |
           git submodule update --init --recursive
           start-sdk init
-          
+
           # Build x86
           make x86
           PACKAGE_ID=$(yq -oy ".id" manifest.*)
           mv ${PACKAGE_ID}.s9pk ${PACKAGE_ID}-x86.s9pk
-          
+
           # Clean and build arm
           make clean
           make arm
           mv ${PACKAGE_ID}.s9pk ${PACKAGE_ID}-arm.s9pk
-          
+
           echo "package_id=$PACKAGE_ID" >> $GITHUB_ENV
           echo "package_title=$(yq -oy ".title" manifest.*)" >> $GITHUB_ENV
         shell: bash
@@ -62,10 +134,10 @@ jobs:
       - name: Generate sha256 checksums
         run: |
           PACKAGE_ID=${{ env.package_id }}
-          
+
           printf "\n SHA256SUM x86: $(sha256sum ${PACKAGE_ID}-x86.s9pk) \n"
           sha256sum ${PACKAGE_ID}-x86.s9pk > ${PACKAGE_ID}-x86.s9pk.sha256
-          
+
           printf "\n SHA256SUM arm: $(sha256sum ${PACKAGE_ID}-arm.s9pk) \n"
           sha256sum ${PACKAGE_ID}-arm.s9pk > ${PACKAGE_ID}-arm.s9pk.sha256
         shell: bash
@@ -86,8 +158,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ env.package_title }} ${{ github.ref_name }}
+          tag_name: ${{ env.tag_name }}
+          name: ${{ env.package_title }} ${{ env.tag_name }}
           prerelease: false
           body_path: change-log.txt
           files: |
