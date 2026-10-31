@@ -1,9 +1,9 @@
 # syntax=docker/dockerfile:1
 # Generated — do not edit directly. Edit Dockerfile.startos and run: make Dockerfile
 # check=skip=SecretsUsedInArgOrEnv
-ARG TAILSCALE_VERSION=v1.104.2
+ARG TAILSCALE_VERSION=v1.104.4
 ARG GO_VERSION=1.27.3
-ARG NODE_VERSION=24.22.1
+ARG NODE_VERSION=24.22.2
 ARG WEBUI_SOURCE=webui-builder
 
 # Frontend build stage — Vite + Svelte + Tailwind
